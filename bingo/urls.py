@@ -20,4 +20,6 @@ from index import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
+    path('raffle', views.raffle, name='raffle'),
+    path('import_raffle_entries/', views.import_raffle_entries, name='import_raffle_entries'),
 ]
