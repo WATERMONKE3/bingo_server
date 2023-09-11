@@ -5,11 +5,10 @@ from django.contrib import messages
 from django.shortcuts import redirect
 # Create your views here.
 def home(request):
-    return render(request, 'home.html')
+    return render(request, 'lp.html')
 
 def bingo(request):
     return render(request, 'bingo.html')
-    return render(request, 'lp.html')
 
 def raffle(request):
     raffle_entries = RaffleEntry.objects.all()
