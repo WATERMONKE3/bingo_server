@@ -1,18 +1,28 @@
 {% load static %}
-<link rel="stylesheet" href="{% static 'style.css' %}">
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
 <!DOCTYPE html>
 <html lang="en">
+
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bingo Game</title>
 
 </head>
+
 <body>
     <div class="container">
-        <h1>Welcome to Bingo Game</h1>
-        <a href="#" class="btn btn-primary">BINGO BITCH</a>
-        <a href="#" class="btn btn-secondary">RAFFLE SLUT</a>
+        <img class="img" src="static/images/logo.png" alt="Bingo Image" width="300">
+        <!-- Add this line with your image file -->
+        <div class="acp">
+            <h1 class="title">ACQUAINTANCE <br> PARTY 2023</h1>
+        </div>
+        <div class="buttons">
+            <a href="#" class="btn">BINGO BITCH</a>
+            <a href="#" class="btn">RAFFLE SLUT</a>
+        </div>
     </div>
 </body>
+
 </html>
