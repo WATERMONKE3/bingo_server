@@ -22,5 +22,6 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('bingo', views.bingo, name='bingo'),
     path('raffle', views.raffle, name='raffle'),
+    path('save_winner', views.save_winner, name='save_winner'),
     path('import_raffle_entries/', views.import_raffle_entries, name='import_raffle_entries'),
 ]
