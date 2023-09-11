@@ -13,3 +13,15 @@
     box-shadow: 0 0 10px #000;
     
 }
+.bingo_page {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+#number-container {
+    font-size: 3rem;
+    padding: 20px;
+    border: 2px solid #333;
+    width: 200px;
+    margin: 0 auto;
+}
