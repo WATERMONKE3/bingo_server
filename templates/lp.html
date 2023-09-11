@@ -3,10 +3,106 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,800&family=Space+Grotesk:wght@600;700&display=swap"
+    rel="stylesheet">
 <!DOCTYPE html>
 <html lang="en">
 
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #006b85;
+        background: linear-gradient(to right, #006b85, #00a79d);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .container {
+        text-align: center;
+        color: white;
+    }
+
+    h1 {
+        font-size: 3rem;
+        margin-bottom: 20px;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 15px 30px;
+        /* Adjusted padding for larger buttons */
+        font-size: 1.5rem;
+        border: none;
+        cursor: pointer;
+        margin: 10px;
+        transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+        background-color: #f69333;
+        /* Changed to #f69333 */
+        color: #000000;
+        /* Text color */
+        border-radius: 4px;
+        text-decoration: none;
+        white-space: nowrap;
+        /* Ensures the text doesn't wrap */
+    }
+
+
+    .btn:hover {
+        background-color: #da7800;
+        /* Slightly darker shade on hover */
+        transform: translateY(-3px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .img {
+        width: 35%;
+        position: fixed;
+        top: 143px;
+        left: 60px;
+        margin: 0;
+        padding: 0;
+    }
+
+
+    .img2 {
+        z-index: -1;
+        top: 20%;
+        left: 0;
+        position: fixed;
+        opacity: 0.3;
+        transform: scaleX(-1);
+    }
+
+    .title {
+        font-size: 120px;
+        font-family: 'Poppins', sans-serif;
+        color: #ffd104;
+    }
+
+    .acp {
+        position: absolute;
+        top: 30%;
+        left: 74%;
+        /* Adjust the left value to move it to the side */
+        transform: translate(-50%, -50%);
+    }
+
+    .buttons {
+        display: flex;
+        justify-content: center;
+        /* Adjust as needed (center, space-between, etc.) */
+        position: relative;
+        /* Set the position to relative */
+        top: 80%;
+        left: 170%;
+        /* Adjust the left value to move it to the side */
+        transform: translate(-50%, 15.5rem);
+    }
+</style>
 
 <head>
     <meta charset="UTF-8">
