@@ -1,0 +1,15 @@
+.big{
+    font: 20px sans-serif;
+    color: #000;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 20px;
+    border: 1px solid #000;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 0 10px #000;
+    
+}
