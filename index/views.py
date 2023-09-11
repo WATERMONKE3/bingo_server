@@ -7,12 +7,33 @@ from django.shortcuts import redirect
 def home(request):
     return render(request, 'lp.html')
 
+def save_winner(request):
+    if request.method == 'POST':
+        winner_number = request.POST.get('winner_number')
+        if winner_number:
+            if RaffleEntry.objects.filter(ticket_number=winner_number).exists():
+                raffle_entry = RaffleEntry.objects.get(ticket_number=winner_number)
+                if not Winner.objects.filter(ticket_number=winner_number).exists():
+                    winner = Winner(
+                        ticket_number=raffle_entry.ticket_number,
+                        name=raffle_entry.name,
+                        phone_number=raffle_entry.phone_number,
+                        address=raffle_entry.address
+                    )
+                    request.session['winner_number'] = winner_number
+                    winner.save()
+                    raffle_entry.delete()
+
+    return redirect('raffle')
 def raffle(request):
+    winner_number = request.session.get('winner_number', 0)
     raffle_entries = RaffleEntry.objects.all()
+    ticket_numbers = [raffle_entry.ticket_number for raffle_entry in raffle_entries]
     context = {
-        'raffle_entries': raffle_entries
+        'winner_number': winner_number,
+        'ticket_numbers': ticket_numbers,
     }
-    return render(request, 'raffle.html')
+    return render(request, 'raffle.html', context)
 
 def import_raffle_entries(request):
     # Path to your CSV file
