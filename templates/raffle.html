@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Raffle Number Roller</title>
+</head>
+<body>
+    <h1>Raffle Number Roller</h1>
+    <div id="numberRoller">{{ rolled_number|default:"0000" }}</div>
+    <form method="post" action="{% url 'raffle_view' %}">
+        {% csrf_token %}
+        <button type="submit">Roll</button>
+    </form>
+</body>
+</html>
