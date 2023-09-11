@@ -5,12 +5,7 @@ from django.db import models
 
 
 
-class BingoCard(models.Model):
-    b_column = models.CharField(max_length=100)  
-    i_column = models.CharField(max_length=100) 
-    n_column = models.CharField(max_length=100) 
-    g_column = models.CharField(max_length=100) 
-    o_column = models.CharField(max_length=100) 
+
 class RaffleEntry(models.Model):
     ticket_number = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=100)
@@ -18,3 +13,9 @@ class RaffleEntry(models.Model):
     address = models.CharField(max_length=100)
     date = models.DateTimeField(auto_now_add=True)
     
+class BingoCard(models.Model):
+    b_column = models.CharField(max_length=100)  
+    i_column = models.CharField(max_length=100) 
+    n_column = models.CharField(max_length=100) 
+    g_column = models.CharField(max_length=100) 
+    o_column = models.CharField(max_length=100) 

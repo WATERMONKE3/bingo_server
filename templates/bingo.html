@@ -2,32 +2,32 @@
 <link rel="stylesheet" href="{% static 'style.css' %}">
 
 <div class="big">
-<div id="bingo_page">
+    <div id="bingo_page">
+        <h1>Bingo Game</h1>
+        <div id="number-container">1</div>
+        <button id="start-button">Start</button>
+        
+        <div id="bingo-table">
+            <table>
+                <tr>
+                    <th>B</th>
+                    <th>I</th>
+                    <th>N</th>
+                    <th>G</th>
+                    <th>O</th>
+                </tr>
+                <tr>
+                    <td id="b-column"></td>
+                    <td id="i-column"></td>
+                    <td id="n-column"></td>
+                    <td id="g-column"></td>
+                    <td id="o-column"></td>
+                </tr>
+            </table>
+        </div>
+        <script src="{% static 'bingo.js' %}"></script>
+    <div id="selected-number-container"></div>
 
-    <h1>Bingo Game</h1>
-    <div id="number-container">1</div>
-    <button id="start-button">Start</button>
 
-
-
-<div id="bingo-table">
-    <table>
-        <tr>
-            <th>B</th>
-            <th>I</th>
-            <th>N</th>
-            <th>G</th>
-            <th>O</th>
-        </tr>
-        <tr>
-            <td id="b-column"></td>
-            <td id="i-column"></td>
-            <td id="n-column"></td>
-            <td id="g-column"></td>
-            <td id="o-column"></td>
-        </tr>
-    </table>
-</div>
-<script src="{% static 'bingo.js' %}"></script>
-</div>
+    </div>
 </div>
