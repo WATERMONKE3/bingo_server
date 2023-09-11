@@ -1,3 +1,5 @@
+
+
 body {
     margin: 0;
     font-family: Arial, sans-serif;
@@ -60,13 +62,14 @@ h1 {
     top: 20%;
     left: 0;
     position: fixed;
-    opacity: 0.5;
+    opacity: 0.3;
     transform: scaleX(-1);
 }
 
 .title {
     font-size: 120px;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: 'Space Grotesk', sans-serif;
+    color: #250570;
 }
 
 .acp {
