@@ -1,35 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Raffle Entries</title>
-    <!-- Add your CSS stylesheets and other head content here -->
+    <title>Raffle Number Roller</title>
 </head>
 <body>
-    <h1>Raffle Entries</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Ticket Number</th>
-                <th>Name</th>
-                <th>Phone Number</th>
-                <th>Address</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for entry in raffle_entries %}
-                <tr>
-                    <td>{{ entry.ticket_number }}</td>
-                    <td>{{ entry.name }}</td>
-                    <td>{{ entry.phone_number }}</td>
-                    <td>{{ entry.address }}</td>
-                </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="4">No raffle entries found.</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <!-- Add any additional HTML content or JavaScript scripts here -->
+    <h1>Raffle Number Roller</h1>
+    <div id="numberRoller">{{ rolled_number|default:"0000" }}</div>
+    <form method="post" action="{% url 'raffle_view' %}">
+        {% csrf_token %}
+        <button type="submit">Roll</button>
+    </form>
 </body>
 </html>
