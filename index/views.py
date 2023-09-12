@@ -10,7 +10,7 @@ def home(request):
 def bingo(request):
     return render(request, 'bingo.html')
 
-def save_bingo_number (request):
+def save_bingo_number(request):
     if request.method == 'POST' and 'number' in request.POST:
         number = int(request.POST['number'])
 
@@ -28,8 +28,7 @@ def save_bingo_number (request):
         elif 61 <= number <= 75:
             bingo_card.o_column = str(number)
 
-    bingo_card.save()  # Save the BingoCard instance
-    print("Here are you?")
+        bingo_card.save()
     return render(request, 'bingo.html')
 
 def raffle(request):

@@ -29,16 +29,3 @@ function startScrolling() {
 
 startButton.addEventListener('click', startScrolling);
 
-function saveSelectedNumber(number) {
-    // Send an AJAX request to your Django view to save the selected number
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', '/save_bingo_number/', true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            // Handle the response if needed
-            console.log('Selected number saved successfully.');
-        }
-    };
-    xhr.send(`number=${number}`);
-}
