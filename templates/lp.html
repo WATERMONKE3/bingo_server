@@ -1,108 +1,57 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
-
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link
-    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,800&family=Space+Grotesk:wght@600;700&display=swap"
-    rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+
 <!DOCTYPE html>
 <html lang="en">
 
 <style>
     body {
-        user-select: none;
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: #006b85;
-        background: linear-gradient(45deg, #006b85, #12f8e9);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
+        z-index: -1;
+        background-color: #f0f0f0;
+        font-family: 'Poppins', sans-serif;
+        color: #333;
     }
 
-    .container {
-        text-align: center;
-        color: white;
-    }
-
-
-    .btn {
-        display: inline-block;
-        padding: 15px 30px;
-        /* Adjusted padding for larger buttons */
-        font-size: 1.5rem;
-        border: none;
-        cursor: pointer;
-        margin: 10px;
-        transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
-        background-color: #f69333;
-        /* Changed to #f69333 */
-        color: #000000;
-        /* Text color */
-        border-radius: 4px;
-        text-decoration: none;
-        white-space: nowrap;
-        /* Ensures the text doesn't wrap */
-    }
-
-    .btn:hover {
-        background-color: #da7800;
-        /* Slightly darker shade on hover */
-        transform: translateY(-3px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    .img {
-        width: 32%;
-        position: fixed;
-        top: 200px;
-        left: 60px;
-        margin: 0;
+    .container-fluid {
         padding: 0;
-        user-select: none;
     }
 
-    .img2 {
-    z-index: -1;
-    top: 20%;
-    left: 0;
-    position: fixed;
-    opacity: 0.3;
-    transform: scaleX(-1);
-    filter: brightness(0.5); /* Adjust the value to darken or lighten the image */
-    user-select: none;
-    }         
 
+
+    .logo {
+        max-width: 100%;
+        height: auto;
+        margin-top: 30px;
+    }
 
     .title {
-        font-size: 100px;
-        padding-right: 200px;
-        font-family: 'Poppins', sans-serif;
-        color: #ffd104;
-        user-select: none;
-    }
-
-    .acp {
-        z-index: 1;
-        position: absolute;
-        top: 40%;
-        left: 74%;
-        /* Adjust the left value to move it to the side */
-        transform: translate(-50%, -50%);
+        font-size: 2.5rem;
+        font-weight: 800;
+        line-height: 1.2;
+        text-align: center;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        margin-top: 50px;
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
     }
 
     .buttons {
-        display: flex;
-        justify-content: center;
-        /* Adjust as needed (center, space-between, etc.) */
-        position: relative;
-        /* Set the position to relative */
-        top: 80%;
-        left: 170%;
-        /* Adjust the left value to move it to the side */
-        transform: translate(-50%, 15.5rem);
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .btn {
+        margin: 10px;
+        padding: 10px 20px;
+        font-size: 1rem;
+        font-weight: 600;
+        border-radius: 5px;
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
     }
 </style>
 
@@ -110,20 +59,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bingo Game</title>
-
 </head>
 
-<body class="bg">
-    <div class="container">
-        <img class="img" src="static/images/logo.svg" alt="Bingo Image" width="300">
-        <img class="img2" src="static/images/campus.svg" alt="skrtskrt">
-        <!-- Add this line with your image file -->
-        <div class="acp">
-            <h1 class="title">ACQUAINTANCE <br> PARTY 2023</h1>
+<body class="py-5">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 text-center">
+                <img class="logo" src="{% static 'images/logo.svg' %}" alt="Bingo Image">
+            </div>
+            <div class="col-md-6">
+                <h1 class="title">ACQUAINTANCE PARTY 2023</h1>
+            </div>
         </div>
-        <div class="buttons">
-            <a href="{% url 'bingo' %}" class="btn">BINGO</a>
-            <a href="#" class="btn">RAFFLE</a>
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <div class="buttons">
+                    <a href="{% url 'bingo' %}" class="btn btn-primary">BINGO</a>
+                    <a href="#" class="btn btn-secondary">RAFFLE</a>
+                </div>
+            </div>
         </div>
     </div>
 </body>
