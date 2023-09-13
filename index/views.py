@@ -8,28 +8,34 @@ def home(request):
     return render(request, 'home.html')
 
 def bingo(request):
-    return render(request, 'bingo.html')
+    bingo_col = BingoCard.objects.all()
 
-def save_bingo_number(request):
-    if request.method == 'POST' and 'number' in request.POST:
-        number = int(request.POST['number'])
+    context ={
+        bingo_col: bingo_col,
+    }
+    return render(request, 'bingo.html', context)
+
+def save_selected_number(request):
+    if request.method == 'POST' and 'selected_number' in request.POST:
+        selected_number = int(request.POST['selected_number'])
 
         # Create a new BingoCard instance and set the appropriate column
         bingo_card = BingoCard()
 
-        if 1 <= number <= 15:
-            bingo_card.b_column = str(number)
-        elif 16 <= number <= 30:
-            bingo_card.i_column = str(number)
-        elif 31 <= number <= 45:
-            bingo_card.n_column = str(number)
-        elif 46 <= number <= 60:
-            bingo_card.g_column = str(number)
-        elif 61 <= number <= 75:
-            bingo_card.o_column = str(number)
+        if 1 <= selected_number <= 15:
+            bingo_card.b_column = selected_number
+        elif 16 <= selected_number <= 30:
+            bingo_card.i_column = selected_number
+        elif 31 <= selected_number <= 45:
+            bingo_card.n_column = selected_number
+        elif 46 <= selected_number <= 60:
+            bingo_card.g_column = selected_number
+        elif 61 <= selected_number <= 75:
+            bingo_card.o_column = selected_number
 
         bingo_card.save()
-    return render(request, 'bingo.html')
+
+    return redirect(request.META.get('HTTP_REFERER', '/'))
 
 def raffle(request):
     raffle_entries = RaffleEntry.objects.all()

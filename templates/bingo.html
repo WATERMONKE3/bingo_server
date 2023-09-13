@@ -5,8 +5,16 @@
     <div id="bingo_page">
         <h1>Bingo Game</h1>
         <div id="number-container">1</div>
-        <button id="start-button">Start</button>
+        <button id="start-button" onclick="startScroll()">Start</button>
         
+
+
+        <div id="selected-number-container"></div>
+        <form method="POST" action="{% url 'save_selected_number' %}" id="bingo-form">
+            {% csrf_token %}
+            <input type="hidden" name="selected_number" id="selected-number-input">
+        </form>
+
         <div id="bingo-table">
             <table>
                 <tr>
@@ -16,18 +24,19 @@
                     <th>G</th>
                     <th>O</th>
                 </tr>
+
+                {% for i in bingo_col %}
                 <tr>
-                    <td id="b-column"></td>
-                    <td id="i-column"></td>
-                    <td id="n-column"></td>
-                    <td id="g-column"></td>
-                    <td id="o-column"></td>
+                    <td >{{i.b_column}}</td>
+                    <td >{{i.i_column}}</td>
+                    <td>{{i.n_column}}</td>
+                    <td >{{i.g_column}}</td>
+                    <td >{{i.o_column}}</td>
                 </tr>
+                {% endfor %}
             </table>
         </div>
-
-    <div id="selected-number-container"></div>
-    <script src="{% static 'bingo.js' %}"></script>
-
     </div>
 </div>
+
+<script src="{% static 'bingo.js' %}"></script>

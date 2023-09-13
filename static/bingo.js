@@ -1,31 +1,28 @@
-// JavaScript code to handle random number scrolling
-const numberContainer = document.getElementById('number-container');
-const startButton = document.getElementById('start-button');
-const selectedNumberContainer = document.getElementById('selected-number-container'); // Element to display selected number
-let interval;
-let selectedNumber;
+function startScroll() {
+    // Disable the Start button to prevent multiple selections
+    document.getElementById('start-button').disabled = true;
 
-function startScrolling() {
-    clearInterval(interval); // Clear any existing interval
-    let startTime = Date.now();
+    // Function to generate and display a random number every 100 milliseconds
+    function scrollNumber() {
+        const randomNumber = Math.floor(Math.random() * 75) + 1;
+        document.getElementById('number-container').textContent = randomNumber;
+        document.getElementById('selected-number-input').value = randomNumber;
 
-    interval = setInterval(function () {
-        const elapsedTime = Date.now() - startTime;
-        if (elapsedTime >= 5000) {
-            clearInterval(interval); // Stop scrolling after 5 seconds
-            selectedNumber = Math.floor(Math.random() * 75) + 1; // Random numbers between 1 and 75
-            numberContainer.textContent = selectedNumber;
-            selectedNumberContainer.textContent = `Selected Number: ${selectedNumber}`; // Display the selected number
-
-            // Send the selected number to your Django view using AJAX
-            saveSelectedNumber(selectedNumber);
+        // Check if a number is selected (not equal to 0) and submit the form
+        if (randomNumber !== 0) {
+            document.getElementById('bingo-form').submit();
         } else {
-            const randomNumber = Math.floor(Math.random() * 75) + 1; // Random numbers between 1 and 75
-            numberContainer.textContent = randomNumber;
+            // Continue scrolling numbers
+            setTimeout(scrollNumber, 100);
         }
+    }
 
-    }, 100);
+    // Start scrolling numbers for 3 seconds (3000 milliseconds)
+    setTimeout(function () {
+        // Stop scrolling after 3 seconds
+        document.getElementById('start-button').disabled = false;
+    }, 5000);
+
+    // Start scrolling numbers
+    scrollNumber();
 }
-
-startButton.addEventListener('click', startScrolling);
-

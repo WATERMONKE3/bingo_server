@@ -21,7 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
     path('bingo', views.bingo, name='bingo'),
-    path('save_bingo_number/', views.save_bingo_number, name='save_bingo_number'),
+    path('bingo/save_selected_number/', views.save_selected_number, name='save_selected_number'),
     path('raffle', views.raffle, name='raffle'),
     path('import_raffle_entries/', views.import_raffle_entries, name='import_raffle_entries'),
 ]
