@@ -63,3 +63,4 @@ def import_raffle_entries(request):
         print("File not found")
         # Handle the case where the CSV file does not exist
         return redirect('home')
+    
