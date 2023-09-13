@@ -3,14 +3,60 @@
 <html>
 <head>
     <title>Raffle Number Roller</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
     <link rel="stylesheet" href="{% static 'css/raffle.css'%}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
+
+    <style>
+        .bg_rice_img{
+            background-image: url("{% static 'images/rice.jpg' %}");
+            background-size: cover; /* or contain, or a specific size */
+            background-repeat: no-repeat; /* or repeat-x, repeat-y, or repeat */
+            background-position: center center; /* or any other position */
+        }
+        
+        .table{
+            --bs-table-bg: #00000000 !important;
+            --bs-table-border-color: #00000000 !important;
+        }
+    </style>
 </head>
+
 <body>
-    <div id="numberRollerContainer">
-        <div id="numberRoller">{{winner_number}}</div>
+    <div class="container-fluid vh-100">
+        <div class="row h-100">
+            <div class="col d-flex align-items-center justify-content-center">
+                <div class="text-center">
+                    <div class="fs-1" id="numberRoller">{{winner_number}}</div>
+                    
+                    <button class="w-100 btn btn-primary btn-lg" id="rollButton">Roll</button>
+                </div>
+            </div>
+            {% if winner_number %}
+            <div class="col">
+                <table class="table fs-1">
+                    <thead>
+                        <tr>
+                            <th class="text-end">Ticket No.</th>
+                            <th>Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for w in winners %}
+                        <tr>
+                            <td class="text-end">{{w.ticket_number}}</td>
+                            <td>{{w.name}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
+        </div>
     </div>
-    <button id="rollButton">Roll</button>
+    <div class="bg_rice_img fixed-top vh-100" style="z-index: -1;"></div>
     <!-- Form to submit the winner number -->
     <form id="winnerForm" method="POST" action="{% url 'save_winner' %}">
         {% csrf_token %}

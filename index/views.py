@@ -29,13 +29,15 @@ def save_winner(request):
 
     return redirect('raffle')
 def raffle(request):
+    context = {}
     winner_number = request.session.get('winner_number', 0)
+    if winner_number:
+        winners = Winner.objects.all().order_by('-date')
+        context.update({'winners': winners})
     raffle_entries = RaffleEntry.objects.all()
     ticket_numbers = [raffle_entry.ticket_number for raffle_entry in raffle_entries]
-    context = {
-        'winner_number': winner_number,
-        'ticket_numbers': ticket_numbers,
-    }
+    context.update({'ticket_numbers': ticket_numbers, 'winner_number': winner_number})
+    
     return render(request, 'raffle.html', context)
 
 def import_raffle_entries(request):
@@ -49,7 +51,7 @@ def import_raffle_entries(request):
             next(csv_data, None)  # Skip the header row if it exists
 
             for row in csv_data:
-                ticket_number, name, phone_number, address = row
+                ticket_number, name, phone_number, address, solicitor = row
                 
                 # Check if an entry with the same ticket number already exists
                 if not RaffleEntry.objects.filter(ticket_number=ticket_number).exists():
@@ -57,13 +59,14 @@ def import_raffle_entries(request):
                         ticket_number=ticket_number,
                         name=name,
                         phone_number=phone_number,
-                        address=address
+                        address=address,
+                        solicitor=solicitor
                     )
                     raffle_entry.save()
-
+        request.session['winner_number'] = 0
         return redirect('home')
     except FileNotFoundError:
         print("File not found")
         # Handle the case where the CSV file does not exist
         return redirect('home')
-
+    
