@@ -5,7 +5,7 @@
         {
             "previewLimit": 50,
             "driver": "SQLite",
-            "name": "bingo_server",
+            "name": "bing_server",
             "database": "${workspaceFolder:bingo_server}/db.sqlite3"
         }
     ]
