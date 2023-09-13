@@ -11,7 +11,7 @@ def bingo(request):
     bingo_col = BingoCard.objects.all()
 
     context ={
-        bingo_col: bingo_col,
+        'bingo_col': bingo_col,
     }
     return render(request, 'bingo.html', context)
 
@@ -36,6 +36,13 @@ def save_selected_number(request):
         bingo_card.save()
 
     return redirect(request.META.get('HTTP_REFERER', '/'))
+
+def new_bingo_game (request):
+
+    BingoCard.objects.all().delete()
+    
+    return redirect(request.META.get('HTTP_REFERER', '/'))
+
 
 def raffle(request):
     raffle_entries = RaffleEntry.objects.all()
