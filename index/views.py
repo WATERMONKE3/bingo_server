@@ -8,6 +8,7 @@ def home(request):
     return render(request, 'lp.html')
 
 def bingo(request):
+    
     return render(request, 'bingo.html')
 
 def save_winner(request):
@@ -66,3 +67,4 @@ def import_raffle_entries(request):
         print("File not found")
         # Handle the case where the CSV file does not exist
         return redirect('home')
+
