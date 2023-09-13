@@ -10,11 +10,13 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,800&family=Space+Grotesk:wght@600;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+
     <style>
         body {
-            background: linear-gradient(to bottom, #ffcccc, #ff9999);
+            user-select: none;
+            background: linear-gradient(to right, #009dc3, #ffffff);
+            /* Adjust direction and colors as needed */
             color: #333;
             display: flex;
             justify-content: center;
@@ -26,42 +28,77 @@
         .logo {
             max-width: 100%;
             height: auto;
-            margin-bottom: 30px; /* Add some space between logo and title */
+            margin-bottom: 5px;
+            /* Add some space between logo and title */
         }
 
         .title {
-            font-size: 2.5rem;
+            font-size: 3.5rem;
             font-weight: 800;
+            font-family: 'Poppins', sans-serif;
             text-align: center;
+            color: #000000 !important;
             padding: 20px;
-        }
-
-        .btn-group {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px; /* Add some space between title and buttons */
         }
 
         .btn {
             margin: 10px;
-            padding: 15px 30px;
+            padding: 15px 50px;
             font-size: 1.2rem;
-            font-weight: 600;
-            border-radius: 10px;
-            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+            background-color: #004c6d; /* Dark blue color */
+            color: #ffffff; /* Text color */
+            font-weight: 700;
+            border-radius: 24px; /* Rounded corners */
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2); /* Shadow */
+            border: none; /* Remove default button border */
+            cursor: pointer; /* Add pointer cursor on hover */
+            transition: transform 0.2s; /* Add a small animation on hover */
+        }
+
+        .btn:hover {
+            transform: scale(1.05); /* Scale up slightly on hover */
+        }
+
+
+        .background-container {
+            background-image: url('{% static 'images/campus.svg' %}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -1;
+            mix-blend-mode: multiply;
+            opacity: 0.3;
         }
 
     </style>
 </head>
 
-<body>
-    <div class="text-center">
-        <img class="logo" src="{% static 'images/logo.svg' %}" alt="Bingo Image">
-        <h1 class="title">ACQUAINTANCE PARTY 2023</h1>
-        <div class="btn-group">
-            <a href="{% url 'bingo' %}" class="btn btn-primary">BINGO</a>
-            <a href="{% url 'raffle' %}" class="btn btn-primary">RAFFLE</a>
+<body class="col-12 py-5">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="text-center">
+                    <img class="logo" src="{% static 'images/logo.svg' %}" alt="Bingo Image">
+                    <h1 class="title">ACQUAINTANCE PARTY 2023</h1>
+
+                </div>
+            </div>
         </div>
+        <div class="row">
+            <div class="col-12 d-flex justify-content-center p-3">
+                <div class="text-center">
+                    <a href="{% url 'bingo' %}" class="btn">BINGO</a>
+                    <a href="#" class="btn">RAFFLE</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="background-container">
     </div>
 </body>
 
