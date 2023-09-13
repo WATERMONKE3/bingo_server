@@ -1,18 +1,68 @@
 {% load static %}
-<link rel="stylesheet" href="{% static 'style.css' %}">
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bingo Game</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,800&family=Space+Grotesk:wght@600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(to bottom, #ffcccc, #ff9999);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
 
+        .logo {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 30px; /* Add some space between logo and title */
+        }
+
+        .title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px; /* Add some space between title and buttons */
+        }
+
+        .btn {
+            margin: 10px;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 10px;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+    </style>
 </head>
+
 <body>
-    <div class="container">
-        <h1>Welcome to Bingo Game</h1>
-        <a href="#" class="btn btn-primary">BINGO BITCH</a>
-        <a href="#" class="btn btn-secondary">RAFFLE SLUT</a>
+    <div class="text-center">
+        <img class="logo" src="{% static 'images/logo.svg' %}" alt="Bingo Image">
+        <h1 class="title">ACQUAINTANCE PARTY 2023</h1>
+        <div class="btn-group">
+            <a href="{% url 'bingo' %}" class="btn btn-primary">BINGO</a>
+            <a href="#" class="btn btn-primary">RAFFLE</a>
+        </div>
     </div>
 </body>
+
 </html>

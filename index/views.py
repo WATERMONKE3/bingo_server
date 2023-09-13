@@ -7,6 +7,9 @@ from django.shortcuts import redirect
 def home(request):
     return render(request, 'lp.html')
 
+def bingo(request):
+    return render(request, 'bingo.html')
+
 def save_winner(request):
     if request.method == 'POST':
         winner_number = request.POST.get('winner_number')
