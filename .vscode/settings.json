@@ -1,4 +1,12 @@
 {
     "editor.tabCompletion": "on",
-    "diffEditor.codeLens": true
+    "diffEditor.codeLens": true,
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "bingo_server",
+            "database": "${workspaceFolder:bingo_server}/db.sqlite3"
+        }
+    ]
 }
