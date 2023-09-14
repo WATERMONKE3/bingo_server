@@ -9,7 +9,6 @@
         <button onclick="startNewGame()">New Game</button>
         
 
-        <div id="selected-number-container"></div>
         <form method="POST" action="{% url 'save_selected_number' %}" id="bingo-form">
             {% csrf_token %}
             <input type="hidden" name="selected_number" id="selected-number-input">
@@ -52,34 +51,37 @@
     let selectedNumbers = new Set(); // Use a Set to store selected numbers
 
     function saveSelectedNumberToDB(selectedNumber) {
-        // Create a new FormData object to send the selected number as part of the form
-        const formData = new FormData();
-        formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-        formData.append('selected_number', selectedNumber);
+    // Create a new FormData object to send the selected number as part of the form
+    const formData = new FormData();
+    formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+    formData.append('selected_number', selectedNumber);
 
-        // Create a new XMLHttpRequest to submit the form data
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', '{% url "save_selected_number" %}', true);
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    // Handle the success response from the server if needed
-                    console.log('Number saved to the database:', selectedNumber);
-                } else {
-                    // Handle errors if any
-                    console.error('Error saving number:', xhr.statusText);
-                }
+    // Create a new XMLHttpRequest to submit the form data
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '{% url "save_selected_number" %}', true);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                // Handle the success response from the server if needed
+                console.log('Number saved to the database:', selectedNumber);
+                numberContainer.textContent = selectedNumber; // Set the value before reloading
+            } else {
+                // Handle errors if any
+                console.error('Error saving number:', xhr.statusText);
             }
-        };
-        xhr.send(formData);
-        
-    }
+            location.reload(); // Reload the page
+        }
+    };
+    xhr.send(formData);
+}
+
 
     function startScrolling() {
         if (selectedNumbers.size >= 75) {
             // All numbers have been selected, disable the "Start" button
             startButton.disabled = true;
             return;
+
         }
 
         clearInterval(interval); // Clear any existing interval
@@ -112,7 +114,6 @@
             }
 
         }, 100);
-
     }
 
     startButton.addEventListener('click', startScrolling);
