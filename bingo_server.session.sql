@@ -1,1 +1,1 @@
-DELETE FROM index_bingocard;
+DELETE  index_Numberwithboolean;

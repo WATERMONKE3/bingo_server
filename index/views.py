@@ -8,16 +8,20 @@ def home(request):
     return render(request, 'lp.html')
 
 def bingo(request):
+
+    selected_number = request.session.get('selected_number', 0)
     bingo_col = BingoCard.objects.all()
 
     context ={
         'bingo_col': bingo_col,
+        'selected_number':selected_number,
     }
     return render(request, 'bingo.html', context)
 
 def save_selected_number(request):
     if request.method == 'POST' and 'selected_number' in request.POST:
         selected_number = int(request.POST['selected_number'])
+        request.session['selected_number'] = selected_number
 
         # Create a new BingoCard instance and set the appropriate column
         bingo_card = BingoCard()
@@ -37,7 +41,28 @@ def save_selected_number(request):
 
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
+from django.http import JsonResponse
+
+def check_selection(request):
+    selected_numbers = request.session.get('selected_numbers', set())
+    selected_number = request.POST.get('selected_number')
+
+    if selected_number and int(selected_number) in selected_numbers:
+        # The selected number has already been selected, return an error response
+        return JsonResponse({'error': 'Number already selected'}, status=400)
+
+    if selected_number:
+        selected_numbers.add(int(selected_number))
+        request.session['selected_numbers'] = selected_numbers
+        request.session.save()
+
+    return JsonResponse({'success': True})
+
+
 def new_bingo_game (request):
+
+    if 'selected_number' in request.session:
+        del request.session['selected_number']
 
     BingoCard.objects.all().delete()
     
