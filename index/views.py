@@ -72,4 +72,3 @@ def import_raffle_entries(request):
         # Handle the case where the CSV file does not exist
         return redirect('home')
     
-
