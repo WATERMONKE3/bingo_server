@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.shortcuts import redirect
 # Create your views here.
 def home(request):
-    return render(request, 'home.html')
+    return render(request, 'lp.html')
 
 def bingo(request):
     bingo_col = BingoCard.objects.all()
@@ -44,12 +44,35 @@ def new_bingo_game (request):
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
 
+def save_winner(request):
+    if request.method == 'POST':
+        winner_number = request.POST.get('winner_number')
+        if winner_number:
+            if RaffleEntry.objects.filter(ticket_number=winner_number).exists():
+                raffle_entry = RaffleEntry.objects.get(ticket_number=winner_number)
+                if not Winner.objects.filter(ticket_number=winner_number).exists():
+                    winner = Winner(
+                        ticket_number=raffle_entry.ticket_number,
+                        name=raffle_entry.name,
+                        phone_number=raffle_entry.phone_number,
+                        address=raffle_entry.address
+                    )
+                    request.session['winner_number'] = winner_number
+                    winner.save()
+                    raffle_entry.delete()
+
+    return redirect('raffle')
 def raffle(request):
+    context = {}
+    winner_number = request.session.get('winner_number', 0)
+    if winner_number:
+        winners = Winner.objects.all().order_by('-date')
+        context.update({'winners': winners})
     raffle_entries = RaffleEntry.objects.all()
-    context = {
-        'raffle_entries': raffle_entries
-    }
-    return render(request, 'raffle.html')
+    ticket_numbers = [raffle_entry.ticket_number for raffle_entry in raffle_entries]
+    context.update({'ticket_numbers': ticket_numbers, 'winner_number': winner_number})
+    
+    return render(request, 'raffle.html', context)
 
 def import_raffle_entries(request):
     # Path to your CSV file
@@ -62,7 +85,7 @@ def import_raffle_entries(request):
             next(csv_data, None)  # Skip the header row if it exists
 
             for row in csv_data:
-                ticket_number, name, phone_number, address = row
+                ticket_number, name, phone_number, address, solicitor = row
                 
                 # Check if an entry with the same ticket number already exists
                 if not RaffleEntry.objects.filter(ticket_number=ticket_number).exists():
@@ -70,12 +93,15 @@ def import_raffle_entries(request):
                         ticket_number=ticket_number,
                         name=name,
                         phone_number=phone_number,
-                        address=address
+                        address=address,
+                        solicitor=solicitor
                     )
                     raffle_entry.save()
-
+        request.session['winner_number'] = 0
         return redirect('home')
     except FileNotFoundError:
         print("File not found")
         # Handle the case where the CSV file does not exist
         return redirect('home')
+    
+
