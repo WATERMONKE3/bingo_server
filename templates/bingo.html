@@ -47,7 +47,7 @@
     var selected_number = {{ selected_number|default:"0" }};
     var scrolling = false;
 
-    function scrollNumbers() {
+ function scrollNumbers() {
     if (numbers.length > 0 && !scrolling) {
         scrolling = true;
         var randomIndex = Math.floor(Math.random() * numbers.length);
@@ -94,6 +94,4 @@
     function startNewGame() {
         window.location.href = "{% url 'new_bingo_game' %}";
     }
-
-    
 </script>
