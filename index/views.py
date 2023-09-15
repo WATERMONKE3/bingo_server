@@ -3,24 +3,46 @@ from index.models import *
 import csv
 from django.contrib import messages
 from django.shortcuts import redirect
+import random
+import time
+from django.http import JsonResponse
 # Create your views here.
 def home(request):
     return render(request, 'lp.html')
 
+
 def bingo(request):
-
+    # Get the selected_numbers_array from the session or initialize it as an empty list
+    selected_numbers_array = request.session.get('selected_numbers_array', [])
     selected_number = request.session.get('selected_number', 0)
-    bingo_col = BingoCard.objects.all()
 
-    context ={
+    bingo_col = BingoCard.objects.all()
+    numbers = list(range(1, 76))
+
+    # Remove selected numbers from the numbers list
+    numbers = [num for num in numbers if num not in selected_numbers_array]
+
+    if selected_number not in selected_numbers_array:
+        selected_numbers_array.append(selected_number)
+        request.session['selected_numbers_array'] = selected_numbers_array
+
+    print(selected_numbers_array)
+    print(numbers)
+    context = {
         'bingo_col': bingo_col,
-        'selected_number':selected_number,
+        'selected_number': selected_number,
+        'numbers': numbers,
     }
+
     return render(request, 'bingo.html', context)
+
+
 
 def save_selected_number(request):
     if request.method == 'POST' and 'selected_number' in request.POST:
         selected_number = int(request.POST['selected_number'])
+
+        # Store selected number in session
         request.session['selected_number'] = selected_number
 
         # Create a new BingoCard instance and set the appropriate column
@@ -39,30 +61,14 @@ def save_selected_number(request):
 
         bingo_card.save()
 
-    return redirect(request.META.get('HTTP_REFERER', '/'))
+    return redirect('bingo')
 
-from django.http import JsonResponse
-
-def check_selection(request):
-    selected_numbers = request.session.get('selected_numbers', set())
-    selected_number = request.POST.get('selected_number')
-
-    if selected_number and int(selected_number) in selected_numbers:
-        # The selected number has already been selected, return an error response
-        return JsonResponse({'error': 'Number already selected'}, status=400)
-
-    if selected_number:
-        selected_numbers.add(int(selected_number))
-        request.session['selected_numbers'] = selected_numbers
-        request.session.save()
-
-    return JsonResponse({'success': True})
-
-
-def new_bingo_game (request):
-
+def new_bingo_game(request):
     if 'selected_number' in request.session:
         del request.session['selected_number']
+
+    if 'selected_numbers_array' in request.session:
+        del request.session['selected_numbers_array']
 
     BingoCard.objects.all().delete()
     

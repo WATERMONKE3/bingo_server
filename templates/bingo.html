@@ -1,15 +1,15 @@
 {% load static %}
+
 <link rel="stylesheet" href="{% static 'style.css' %}">
 
 <div class="big">
     <div id="bingo_page">
         <h1>Bingo Game</h1>
-        <div id="number-container">{{selected_number}}</div>
-        <button id="start-button" onclick="startScroll()">Start</button>
+        <div id="number-container">{{ selected_number}}</div>
+        <button id="start-button" onclick="scrollNumbers()">Start</button>
         <button onclick="startNewGame()">New Game</button>
-        
 
-        <form method="POST" action="{% url 'save_selected_number' %}" id="bingo-form">
+        <form method="POST" action="{% url 'save_selected_number' %}" id="bingo-form" style="display: none;">
             {% csrf_token %}
             <input type="hidden" name="selected_number" id="selected-number-input">
         </form>
@@ -26,105 +26,67 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for bing in bingo_col %}
-                    <tr>
-                        <td>{{bing.b_column}}</td>
-                        <td>{{bing.i_column}}</td>
-                        <td>{{bing.n_column}}</td>
-                        <td>{{bing.g_column}}</td>
-                        <td>{{bing.o_column}}</td>
-                    </tr>
-                    {% endfor %}
+
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    // JavaScript code to handle random number scrolling
-    const numberContainer = document.getElementById('number-container');
-    const startButton = document.getElementById('start-button');
-    const selectedNumberContainer = document.getElementById('selected-number-container'); // Element to display selected number
-    const bingoForm = document.getElementById('bingo-form'); // Form to submit selected numbers
-    let interval;
-    let selectedNumbers = new Set(); // Use a Set to store selected numbers
+       
+    var numbers = {{ numbers|safe }};
+    var selected_number = {{ selected_number|default:"0" }};
+    var scrolling = false;
 
-    function saveSelectedNumberToDB(selectedNumber) {
-    // Create a new FormData object to send the selected number as part of the form
-    const formData = new FormData();
-    formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-    formData.append('selected_number', selectedNumber);
+    function scrollNumbers() {
+    if (numbers.length > 0 && !scrolling) {
+        scrolling = true;
+        var randomIndex = Math.floor(Math.random() * numbers.length);
+        var numberToDisplay = numbers[randomIndex];
 
-    // Create a new XMLHttpRequest to submit the form data
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', '{% url "save_selected_number" %}', true);
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-                // Handle the success response from the server if needed
-                console.log('Number saved to the database:', selectedNumber);
-                numberContainer.textContent = selectedNumber; // Set the value before reloading
-            } else {
-                // Handle errors if any
-                console.error('Error saving number:', xhr.statusText);
-            }
-            location.reload(); // Reload the page
+        // Disable the button while scrolling is in progress
+        $("#start-button").prop("disabled", true);
+
+        // Create a function to stop scrolling and display the number
+        function stopScrolling() {
+            selected_number = numberToDisplay;
+            $("#selected-number-input").val(selected_number);
+            numbers.splice(randomIndex, 1);
+            scrolling = false;
+            $("#start-button").prop("disabled", false);
+            $("#bingo-form").submit(); // Automatically submit the form after scrolling
         }
-    };
-    xhr.send(formData);
+
+        // Simulate scrolling animation
+        var interval = setInterval(function () {
+            var randomNumber = Math.floor(Math.random() * 10);
+            $("#number-container").text(randomNumber);
+        }, 100);
+
+        // Stop scrolling after 1 second (adjust the duration as needed)
+        setTimeout(function () {
+            clearInterval(interval);
+            $("#number-container").text(numberToDisplay);
+            stopScrolling();
+        }, 1000);
+    } else {
+        alert("All numbers have been selected.");
+    }
 }
 
-
-    function startScrolling() {
-        if (selectedNumbers.size >= 75) {
-            // All numbers have been selected, disable the "Start" button
-            startButton.disabled = true;
-            return;
-
-        }
-
-        clearInterval(interval); // Clear any existing interval
-        let startTime = Date.now();
-
-        interval = setInterval(function () {
-            const elapsedTime = Date.now() - startTime;
-            if (elapsedTime >= 1000) {
-                clearInterval(interval); // Stop scrolling after 5 seconds
-                const remainingNumbers = Array.from({ length: 75 }, (_, i) => i + 1)
-                    .filter(number => !selectedNumbers.has(number)); // Filter out selected numbers
-                const randomIndex = Math.floor(Math.random() * remainingNumbers.length);
-                selectedNumber = remainingNumbers[randomIndex];
-                numberContainer.textContent = selectedNumber;
-
-                // Send the selected number to your Django view to save in the database
-                saveSelectedNumberToDB(selectedNumber);
-
-                // Add the selected number to the Set
-                selectedNumbers.add(selectedNumber);
-
-
-                if (selectedNumbers.size >= 75) {
-                    // All numbers have been selected, disable the "Start" button
-                    startButton.disabled = true;
-                }
-            } else {
-                const randomNumber = Math.floor(Math.random() * 75) + 1; // Random numbers between 1 and 75
-                numberContainer.textContent = randomNumber;
+    $(document).ready(function () {
+        $("#start-button").on("click", function () {
+            if (!scrolling) {
+                scrollNumbers();
             }
-
-        }, 100);
-    }
-
-    startButton.addEventListener('click', startScrolling);
-
+        });
+    });
 
     function startNewGame() {
-    // Redirect to the new game URL
-    window.location.href = "{% url 'new_bingo_game' %}";
-    
-    // Reload the current page
-    location.reload();
-}
-</script>
+        window.location.href = "{% url 'new_bingo_game' %}";
+    }
 
+
+</script>

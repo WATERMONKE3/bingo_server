@@ -23,7 +23,6 @@ urlpatterns = [
     path('bingo', views.bingo, name='bingo'),
     path('bingo/save_selected_number/', views.save_selected_number, name='save_selected_number'),
     path('bingo/new_bingo_game/', views.new_bingo_game, name='new_bingo_game'),
-    path('bingo/check_selection/', views.check_selection, name='check_selection'),
     path('raffle', views.raffle, name='raffle'),
     path('save_winner', views.save_winner, name='save_winner'),
     path('import_raffle_entries/', views.import_raffle_entries, name='import_raffle_entries'),
