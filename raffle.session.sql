@@ -1,1 +1,1 @@
-DELETE FROM django_session;
+DELETE FROM index_winner;
