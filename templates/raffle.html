@@ -5,6 +5,7 @@
     <title>Raffle Number Roller</title>
     <link rel="stylesheet" href="{% static 'css/raffle.css'%}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/seedrandom/3.0.5/seedrandom.min.js"></script>
+    <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 
@@ -33,12 +34,19 @@
             padding-bottom: 0;
             border-bottom: none;
         }
+        
         .fixed-size-div {
-            width: 300px; /* Set your desired width */
-            height: 200px; /* Set your desired height */
+            height: 100%;
             border: 1px solid #ccc;
-            overflow: auto; /* Enable scrollbar when content exceeds dimensions */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
+
+        .table {
+            flex-grow: 1;
+        }
+
     </style>
 </head>
 
