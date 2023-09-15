@@ -17,7 +17,7 @@ class RaffleEntry(models.Model):
 class BingoNumber(models.Model):
     number = models.IntegerField(primary_key=True)
     is_drawn = models.BooleanField(default=False)
-    date_drawn = models.DateTimeField(auto_now_add=True)
+    time_drawn = models.TimeField(null=True)
     bingo = models.CharField(max_length=100)
     
 class Winner(models.Model):

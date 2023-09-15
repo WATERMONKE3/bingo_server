@@ -15,7 +15,7 @@
         </form>
 
         <div id="bingo-table">
-            <table>
+            <table class="table">
                 <thead>
                     <tr>
                         <th>B</th>
@@ -26,13 +26,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for bing in bingo_col %}
+                    {% for bingo in bingo_card %}
                     <tr>
-                        <td>{{ bing.b_column }}</td>
-                        <td>{{ bing.i_column }}</td>
-                        <td>{{ bing.n_column }}</td>
-                        <td>{{ bing.g_column }}</td>
-                        <td>{{ bing.o_column }}</td>
+                        {% for number in bingo %}
+                        <td>{{ number }}</td>
+                        {% endfor %}
                     </tr>
                     {% endfor %}
                 </tbody>
