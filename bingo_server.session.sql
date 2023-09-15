@@ -1,1 +1,1 @@
-DELETE  index_Numberwithboolean;
+DELETE  index_bingonumber where 'time_drawn';

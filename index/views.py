@@ -122,7 +122,7 @@ def new_bingo_game(request):
     if 'selected_numbers_array' in request.session:
         del request.session['selected_numbers_array']
 
-    BingoCard.objects.all().delete()
+    BingoNumber.objects.all().delete()
     
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
