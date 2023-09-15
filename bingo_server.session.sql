@@ -1,0 +1,1 @@
+DELETE  index_Numberwithboolean;

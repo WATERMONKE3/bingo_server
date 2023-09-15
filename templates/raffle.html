@@ -61,7 +61,7 @@
                 </div>
             </div>
             <div class="col">
-                <div class="fixed-size-div">
+                <div id="myDiv" class="fixed-size-div">
                     <table class="table fs-5">
                         <thead>
                             <tr>
@@ -78,13 +78,6 @@
                                 <td>{{w.ticket_number}}</td>
                             </tr>
                             {% endfor %}
-                            {% for b in blank_rows %}
-                            <tr>
-                                <td>{{b}}</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            {% endfor %}
                         </tbody>
                     </table>
                         
@@ -95,7 +88,7 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" onclick="animateScroll()" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="text-center modal-body pt-0">
                             <span class="fs-4" id="exampleModalLabel">Congratulations!</span>
@@ -118,7 +111,29 @@
         function launchModal() {
             $('#myModal').modal('show');
         }
+        function animateScroll() {
+            var div = document.getElementById("myDiv");
+            var targetScrollTop = div.scrollTop + 10; // Change this value as needed
+            var duration = 1000; // Duration of the animation in milliseconds
 
+            // Calculate the difference in scroll positions
+            var scrollDifference = targetScrollTop - div.scrollTop;
+            var startTime = null;
+
+            function scrollAnimation(timestamp) {
+                if (!startTime) startTime = timestamp;
+
+                var progress = timestamp - startTime;
+                var scrollFraction = progress / duration;
+
+                if (scrollFraction < 1) {
+                    div.scrollTop += scrollDifference * scrollFraction;
+                    requestAnimationFrame(scrollAnimation);
+                }
+            }
+
+            requestAnimationFrame(scrollAnimation);
+        }
         winnerForm = document.getElementById('winnerForm');
         winnerNumberField = document.getElementById('winnerNumberField');
         // Function to reshuffle and roll the numbers with seeded random
