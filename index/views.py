@@ -13,9 +13,12 @@ def home(request):
 
 
 def bingo(request):
+    context = {}
     # Get the selected_numbers_array from the session or initialize it as an empty list
-    selected_numbers_array = request.session.get('selected_numbers_array', [])
+    bingo_card = request.session.get('bingo_card', [])
     selected_number = request.session.get('selected_number', 0)
+    if selected_number:
+        context.update({'selected_number': selected_number})
 
     # bingo_col = BingoCard.objects.all()
     # numbers = list(range(1, 76))
@@ -26,7 +29,6 @@ def bingo(request):
     #     selected_numbers_array.append(selected_number)
     #     request.session['selected_numbers_array'] = selected_numbers_array
     all_numbers = list(range(1, 76))
-    bingo_card = []
     if not BingoNumber.objects.exists():
         for i in all_numbers:
             bingo_number = BingoNumber(number=i)
@@ -45,6 +47,7 @@ def bingo(request):
         # create 2d array
         for i in range(15):
             bingo_card.append([])
+        request.session['bingo_card'] = bingo_card
     b_numbers = BingoNumber.objects.filter(bingo='B', is_drawn=True)
     i_numbers = BingoNumber.objects.filter(bingo='I', is_drawn=True)
     n_numbers = BingoNumber.objects.filter(bingo='N', is_drawn=True)
@@ -78,10 +81,7 @@ def bingo(request):
 
     print(bingo_card)
 
-    context = {
-        'bingo_card': bingo_card,
-        'numbers': all_numbers,
-    }
+    context.update({'bingo_card': bingo_card, 'all_numbers': all_numbers})
 
     return render(request, 'bingo.html', context)
 
@@ -121,6 +121,8 @@ def new_bingo_game(request):
 
     if 'selected_numbers_array' in request.session:
         del request.session['selected_numbers_array']
+    if 'bingo_card' in request.session:
+        del request.session['bingo_card']
 
     BingoNumber.objects.all().delete()
     
