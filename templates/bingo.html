@@ -2,6 +2,7 @@
 
 <link rel="stylesheet" href="{% static 'style.css' %}">
 
+
 <div class="big">
     <div id="bingo_page">
         <h1>Bingo Game</h1>
@@ -13,6 +14,9 @@
             {% csrf_token %}
             <input type="hidden" name="selected_number" id="selected-number-input">
         </form>
+    </div>
+
+    
 
         <div id="bingo-table">
             <table class="table">
@@ -36,7 +40,9 @@
                 </tbody>
             </table>
         </div>
-    </div>
+    
+
+
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

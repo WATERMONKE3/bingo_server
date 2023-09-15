@@ -81,7 +81,7 @@ def bingo(request):
 
     print(bingo_card)
 
-    context.update({'bingo_card': bingo_card, 'all_numbers': all_numbers})
+    context.update({'bingo_card': bingo_card, 'numbers': all_numbers})
 
     return render(request, 'bingo.html', context)
 
