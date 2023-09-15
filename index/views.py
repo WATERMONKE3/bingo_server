@@ -26,8 +26,7 @@ def bingo(request):
         selected_numbers_array.append(selected_number)
         request.session['selected_numbers_array'] = selected_numbers_array
 
-    print(selected_numbers_array)
-    print(numbers)
+
     context = {
         'bingo_col': bingo_col,
         'selected_number': selected_number,
