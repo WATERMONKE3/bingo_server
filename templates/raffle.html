@@ -33,6 +33,12 @@
             padding-bottom: 0;
             border-bottom: none;
         }
+        .fixed-size-div {
+            width: 300px; /* Set your desired width */
+            height: 200px; /* Set your desired height */
+            border: 1px solid #ccc;
+            overflow: auto; /* Enable scrollbar when content exceeds dimensions */
+        }
     </style>
 </head>
 
@@ -47,31 +53,34 @@
                 </div>
             </div>
             <div class="col">
-                <table class="table fs-1">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Name</th>
-                            <th>Ticket #</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for w in winners %}
-                        <tr>
-                            <td>{{forloop.counter}}</td>
-                            <td>{{w.name}}</td>
-                            <td>{{w.ticket_number}}</td>
-                        </tr>
-                        {% endfor %}
-                        {% for b in blank_rows %}
-                        <tr>
-                            <td>{{b}}</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                <div class="fixed-size-div">
+                    <table class="table fs-5">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Name</th>
+                                <th>Ticket #</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for w in winners %}
+                            <tr>
+                                <td>{{forloop.counter}}</td>
+                                <td>{{w.name}}</td>
+                                <td>{{w.ticket_number}}</td>
+                            </tr>
+                            {% endfor %}
+                            {% for b in blank_rows %}
+                            <tr>
+                                <td>{{b}}</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                        
+                </div>
             </div>
                         
             <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
