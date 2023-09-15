@@ -26,7 +26,15 @@
                     </tr>
                 </thead>
                 <tbody>
-
+                    {% for bing in bingo_col %}
+                    <tr>
+                        <td>{{ bing.b_column }}</td>
+                        <td>{{ bing.i_column }}</td>
+                        <td>{{ bing.n_column }}</td>
+                        <td>{{ bing.g_column }}</td>
+                        <td>{{ bing.o_column }}</td>
+                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
@@ -35,7 +43,6 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-       
     var numbers = {{ numbers|safe }};
     var selected_number = {{ selected_number|default:"0" }};
     var scrolling = false;
@@ -88,5 +95,5 @@
         window.location.href = "{% url 'new_bingo_game' %}";
     }
 
-
+    
 </script>
