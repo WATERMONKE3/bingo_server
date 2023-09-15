@@ -1,1 +1,1 @@
-DELETE  index_bingonumber where 'time_drawn';
+UPDATE index_bingonumber set time_drawn =null;
