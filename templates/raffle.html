@@ -37,14 +37,17 @@
         
         .fixed-size-div {
             height: 100%;
-            border: 1px solid #ccc;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            align-items: center; /* Center horizontally */
+            justify-content: center; /* Center vertically */
         }
-
-        .table {
-            flex-grow: 1;
+        
+        .table-container {
+            max-height: 850px; /* Adjust the maximum height as needed */
+            overflow-y: auto;
+            border: 1px solid #000000;
+            border-radius: 10px;
         }
 
     </style>
@@ -52,16 +55,17 @@
 
 <body {% if winner_number %} onload="launchModal()" {% endif %}>
     <div class="container-fluid vh-100">
-        <div class="row h-100" style="z-index: 1000;">
-            <div class="col d-flex align-items-center justify-content-center">
+        <div class="row py-5 h-100" style="z-index: 1000;">
+            <div class="col-md-6 d-flex align-items-center justify-content-center">
                 <div class="text-center">
                     <div class="fs-1" id="numberRoller">{{winner_number}}</div>
                     
                     <button class="w-100 btn btn-primary btn-lg" id="rollButton">Roll</button>
                 </div>
             </div>
-            <div class="col">
-                <div id="myDiv" class="fixed-size-div">
+            <div class="col-md-6">
+            <div id="myDiv" class="table-container">
+                <div class="fixed-size-div">
                     <table class="table fs-5">
                         <thead>
                             <tr>
@@ -80,8 +84,8 @@
                             {% endfor %}
                         </tbody>
                     </table>
-                        
                 </div>
+            </div>
             </div>
                         
             <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -113,7 +117,7 @@
         }
         function animateScroll() {
             var div = document.getElementById("myDiv");
-            var targetScrollTop = div.scrollTop + 10; // Change this value as needed
+            var targetScrollTop = div.scrollTop + 100; // Change this value as needed
             var duration = 1000; // Duration of the animation in milliseconds
 
             // Calculate the difference in scroll positions
@@ -133,6 +137,7 @@
             }
 
             requestAnimationFrame(scrollAnimation);
+            console.log("scroll");
         }
         winnerForm = document.getElementById('winnerForm');
         winnerNumberField = document.getElementById('winnerNumberField');
@@ -160,7 +165,7 @@
             // Roll the numbers with animation for 3 seconds
             let currentIndex = 0;
             const startTime = Date.now();
-            const rollDuration = 3000; // 3 seconds
+            const rollDuration = .1; // 3 seconds
 
             const interval = setInterval(function() {
                 if (Date.now() - startTime < rollDuration) {
