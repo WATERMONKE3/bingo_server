@@ -31,12 +31,14 @@ def save_winner(request):
 def raffle(request):
     context = {}
     winner_number = request.session.get('winner_number', 0)
+    win_count = Winner.objects.all().count()
     if winner_number:
-        winners = Winner.objects.all().order_by('-date')
-        context.update({'winners': winners})
+        current_winner = Winner.objects.get(ticket_number=winner_number)
+        winners = Winner.objects.all().order_by('date')
+        context.update({'winners': winners, 'current_winner': current_winner})
     raffle_entries = RaffleEntry.objects.all()
     ticket_numbers = [raffle_entry.ticket_number for raffle_entry in raffle_entries]
-    context.update({'ticket_numbers': ticket_numbers, 'winner_number': winner_number})
+    context.update({'ticket_numbers': ticket_numbers, 'winner_number': winner_number, 'blank_rows': range(win_count+1,21)})
     
     return render(request, 'raffle.html', context)
 
