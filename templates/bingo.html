@@ -1,33 +1,92 @@
 {% load static %}
+
 <link rel="stylesheet" href="{% static 'style.css' %}">
 
 <div class="big">
-<div id="bingo_page">
+    <div id="bingo_page">
+        <h1>Bingo Game</h1>
+        <div id="number-container">{{ selected_number}}</div>
+        <button id="start-button" onclick="scrollNumbers()">Start</button>
+        <button onclick="startNewGame()">New Game</button>
 
-    <h1>Bingo Game</h1>
-    <div id="number-container">1</div>
-    <button id="start-button">Start</button>
+        <form method="POST" action="{% url 'save_selected_number' %}" id="bingo-form" style="display: none;">
+            {% csrf_token %}
+            <input type="hidden" name="selected_number" id="selected-number-input">
+        </form>
 
+        <div id="bingo-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>B</th>
+                        <th>I</th>
+                        <th>N</th>
+                        <th>G</th>
+                        <th>O</th>
+                    </tr>
+                </thead>
+                <tbody>
 
-
-<div id="bingo-table">
-    <table>
-        <tr>
-            <th>B</th>
-            <th>I</th>
-            <th>N</th>
-            <th>G</th>
-            <th>O</th>
-        </tr>
-        <tr>
-            <td id="b-column"></td>
-            <td id="i-column"></td>
-            <td id="n-column"></td>
-            <td id="g-column"></td>
-            <td id="o-column"></td>
-        </tr>
-    </table>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
-<script src="{% static 'bingo.js' %}"></script>
-</div>
-</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+       
+    var numbers = {{ numbers|safe }};
+    var selected_number = {{ selected_number|default:"0" }};
+    var scrolling = false;
+
+    function scrollNumbers() {
+    if (numbers.length > 0 && !scrolling) {
+        scrolling = true;
+        var randomIndex = Math.floor(Math.random() * numbers.length);
+        var numberToDisplay = numbers[randomIndex];
+
+        // Disable the button while scrolling is in progress
+        $("#start-button").prop("disabled", true);
+
+        // Create a function to stop scrolling and display the number
+        function stopScrolling() {
+            selected_number = numberToDisplay;
+            $("#selected-number-input").val(selected_number);
+            numbers.splice(randomIndex, 1);
+            scrolling = false;
+            $("#start-button").prop("disabled", false);
+            $("#bingo-form").submit(); // Automatically submit the form after scrolling
+        }
+
+        // Simulate scrolling animation
+        var interval = setInterval(function () {
+            var randomNumber = Math.floor(Math.random() * 10);
+            $("#number-container").text(randomNumber);
+        }, 100);
+
+        // Stop scrolling after 1 second (adjust the duration as needed)
+        setTimeout(function () {
+            clearInterval(interval);
+            $("#number-container").text(numberToDisplay);
+            stopScrolling();
+        }, 1000);
+    } else {
+        alert("All numbers have been selected.");
+    }
+}
+
+    $(document).ready(function () {
+        $("#start-button").on("click", function () {
+            if (!scrolling) {
+                scrollNumbers();
+            }
+        });
+    });
+
+    function startNewGame() {
+        window.location.href = "{% url 'new_bingo_game' %}";
+    }
+
+
+</script>

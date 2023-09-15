@@ -5,9 +5,8 @@
         {
             "previewLimit": 50,
             "driver": "SQLite",
-            "name": "raffle",
+            "name": "bing_server",
             "database": "${workspaceFolder:bingo_server}/db.sqlite3"
         }
-    ],
-    "sqltools.useNodeRuntime": true
+    ]
 }

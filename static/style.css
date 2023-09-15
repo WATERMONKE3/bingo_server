@@ -38,7 +38,7 @@ h1 {
     width: 200px;
     margin: 0 auto;
 }
-}
+
 
 .btn {
     display: inline-block;
@@ -60,4 +60,24 @@ h1 {
 
 .btn:hover {
     background-color: #005151; /* Adjust the button color on hover here */
+}
+#number-container {
+    /* Add any desired styling to the number container */
+    font-size: 36px;
+    text-align: center;
+    height: 50px; /* Adjust the height as needed */
+    overflow: hidden;
+}
+
+#number-container .scrolling {
+    animation: scroll 1s linear; /* Adjust animation duration as needed */
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-100%);
+    }
 }
