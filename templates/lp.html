@@ -11,11 +11,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+    <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+
 
     <style>
         body {
             user-select: none;
-            background: linear-gradient(to right, #009dc3, #ffffff);
+            background: linear-gradient(90deg, rgba(0,27,37,1) 0%, rgba(0,122,155,1) 41%, rgba(255,255,255,1) 100%);
             /* Adjust direction and colors as needed */
             color: #333;
             display: flex;
@@ -24,7 +26,6 @@
             height: 100vh;
             margin: 0;
         }
-
         .logo {
             max-width: 100%;
             height: auto;
@@ -32,21 +33,23 @@
             /* Add some space between logo and title */
         }
 
-        .title {
-            font-size: 3.5rem;
+        p.title {
+            font-size: 90px;
             font-weight: 800;
             font-family: 'Poppins', sans-serif;
             text-align: center;
-            color: #000000 !important;
-            padding: 20px;
+            color: orange !important;
+            padding: 0px;
+            margin: 0px;
         }
+
 
         .btn {
             margin: 10px;
             padding: 15px 50px;
             font-size: 1.2rem;
-            background-color: #004c6d; /* Dark blue color */
-            color: #ffffff; /* Text color */
+            background-color: #ffffff; /* Dark blue color */
+            color: #005875; /* Text color */
             font-weight: 700;
             border-radius: 24px; /* Rounded corners */
             box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2); /* Shadow */
@@ -57,8 +60,9 @@
 
         .btn:hover {
             transform: scale(1.05); /* Scale up slightly on hover */
+            background-color: orange;
+            color: #ffffff; 
         }
-
 
         .background-container {
             background-image: url('{% static 'images/campus.svg' %}');
@@ -75,25 +79,43 @@
             opacity: 0.3;
         }
 
+        p#quote{
+            color: #ffffff;
+            margin:0px;
+        }
+        div.custom-row{
+            height: 100%;
+        }
+
+        .row {
+            flex-wrap: wrap;
+            margin-right: -15px;
+            margin-left: -15px;
+        }
+        .d-flex {
+            display: -ms-flexbox!important;
+            display: flex!important;
+            justify-content: center;
+        }
     </style>
 </head>
 
-<body class="col-12 py-5">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <div class="text-center">
-                    <img class="logo" src="{% static 'images/logo.svg' %}" alt="Bingo Image">
-                    <h1 class="title">ACQUAINTANCE PARTY 2023</h1>
-
+<body class="py-5">
+    <div class="container-fluid vh-100 py-5 d-flex align-items-center">
+        <div class="row d-flex justify-content-center custom-row">
+            <div class="col-sm-6 align-self-center">
+                <div class="d-flex flex-column">
+                    <p class="title">ACQUAINTANCE PARTY 2023</p>
+                    <p class="text-center mb-5 lead" id="quote">“Life is partly what we make it, and partly what it is made by the friends we choose.” <br>— Tennessee Williams</p>
+                    <div class="text-center">
+                        <a href="{% url 'bingo' %}" class="btn">BINGO</a>
+                        <a href="{% url 'raffle' %}" class="btn">RAFFLE</a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-12 d-flex justify-content-center p-3">
+            <div class="col-sm-6 d-flex justify-content-center p-3 align-self-center">
                 <div class="text-center">
-                    <a href="{% url 'bingo' %}" class="btn">BINGO</a>
-                    <a href="#" class="btn">RAFFLE</a>
+                    <img class="logo" src="{% static 'images/logo.svg' %}" alt="Bingo Image">
                 </div>
             </div>
         </div>

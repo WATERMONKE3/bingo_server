@@ -21,12 +21,29 @@
             --bs-table-bg: #00000000 !important;
             --bs-table-border-color: #00000000 !important;
         }
+        #confetti{
+            height: 100%;
+            left: 0px;
+            position: fixed;
+            top: 0px;
+            width: 100%;
+            z-index: -1;
+        }
+        .modal-header{
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        .fixed-size-div {
+            height: 80%; /* Set your desired height */
+            border: 1px solid #ccc;
+            overflow: auto; /* Enable scrollbar when content exceeds dimensions */
+        }
     </style>
 </head>
 
-<body>
+<body {% if winner_number %} onload="launchModal()" {% endif %}>
     <div class="container-fluid vh-100">
-        <div class="row h-100">
+        <div class="row h-100" style="z-index: 1000;">
             <div class="col d-flex align-items-center justify-content-center">
                 <div class="text-center">
                     <div class="fs-1" id="numberRoller">{{winner_number}}</div>
@@ -34,35 +51,80 @@
                     <button class="w-100 btn btn-primary btn-lg" id="rollButton">Roll</button>
                 </div>
             </div>
-            {% if winner_number %}
             <div class="col">
-                <table class="table fs-1">
-                    <thead>
-                        <tr>
-                            <th class="text-end">Ticket No.</th>
-                            <th>Name</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for w in winners %}
-                        <tr>
-                            <td class="text-end">{{w.ticket_number}}</td>
-                            <td>{{w.name}}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                <div id="myDiv" class="fixed-size-div">
+                    <table class="table fs-5">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Name</th>
+                                <th>Ticket #</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for w in winners %}
+                            <tr>
+                                <td>{{forloop.counter}}</td>
+                                <td>{{w.name}}</td>
+                                <td>{{w.ticket_number}}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                        
+                </div>
             </div>
-            {% endif %}
+                        
+            <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="btn-close" onclick="animateScroll()" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="text-center modal-body pt-0">
+                            <span class="fs-4" id="exampleModalLabel">Congratulations!</span>
+                            <h1 class="mt-3 mb-4"><span class="fs-3">{{current_winner.ticket_number}}</span> {{current_winner.name}}</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="bg_rice_img fixed-top vh-100" style="z-index: -1;"></div>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.js"></script>
+    <div id="confetti"></div>
+    <div class="bg_rice_img fixed-top vh-100" style="z-index: -2;"></div>
     <!-- Form to submit the winner number -->
     <form id="winnerForm" method="POST" action="{% url 'save_winner' %}">
         {% csrf_token %}
         <input type="hidden" name="winner_number" id="winnerNumberField">
     </form>
     <script>
+        function launchModal() {
+            $('#myModal').modal('show');
+        }
+        function animateScroll() {
+            var div = document.getElementById("myDiv");
+            var targetScrollTop = div.scrollTop + 10; // Change this value as needed
+            var duration = 1000; // Duration of the animation in milliseconds
+
+            // Calculate the difference in scroll positions
+            var scrollDifference = targetScrollTop - div.scrollTop;
+            var startTime = null;
+
+            function scrollAnimation(timestamp) {
+                if (!startTime) startTime = timestamp;
+
+                var progress = timestamp - startTime;
+                var scrollFraction = progress / duration;
+
+                if (scrollFraction < 1) {
+                    div.scrollTop += scrollDifference * scrollFraction;
+                    requestAnimationFrame(scrollAnimation);
+                }
+            }
+
+            requestAnimationFrame(scrollAnimation);
+        }
         winnerForm = document.getElementById('winnerForm');
         winnerNumberField = document.getElementById('winnerNumberField');
         // Function to reshuffle and roll the numbers with seeded random
@@ -115,6 +177,7 @@
         // Attach the rollNumbers function to the button's click event
         const rollButton = document.getElementById('rollButton');
         rollButton.addEventListener('click', rollNumbers);
+
     </script>
 </body>
 </html>

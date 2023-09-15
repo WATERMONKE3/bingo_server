@@ -16,7 +16,7 @@ def bingo(request):
     selected_numbers_array = request.session.get('selected_numbers_array', [])
     selected_number = request.session.get('selected_number', 0)
 
-    bingo_col = BingoCard.objects.all()
+    # bingo_col = BingoCard.objects.all()
     numbers = list(range(1, 76))
 
     # Remove selected numbers from the numbers list
@@ -31,6 +31,7 @@ def bingo(request):
         'bingo_col': bingo_col,
         'selected_number': selected_number,
         'numbers': numbers,
+        'rows': rows,
     }
 
     return render(request, 'bingo.html', context)
@@ -96,8 +97,9 @@ def raffle(request):
     context = {}
     winner_number = request.session.get('winner_number', 0)
     if winner_number:
-        winners = Winner.objects.all().order_by('-date')
-        context.update({'winners': winners})
+        current_winner = Winner.objects.get(ticket_number=winner_number)
+        winners = Winner.objects.all().order_by('date')
+        context.update({'winners': winners, 'current_winner': current_winner})
     raffle_entries = RaffleEntry.objects.all()
     ticket_numbers = [raffle_entry.ticket_number for raffle_entry in raffle_entries]
     context.update({'ticket_numbers': ticket_numbers, 'winner_number': winner_number})
@@ -134,4 +136,3 @@ def import_raffle_entries(request):
         # Handle the case where the CSV file does not exist
         return redirect('home')
     
-
