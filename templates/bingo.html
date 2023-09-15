@@ -1,49 +1,57 @@
 {% load static %}
 
-<link rel="stylesheet" href="{% static 'style.css' %}">
-
-
-<div class="big">
-    <div id="bingo_page">
-        <h1>Bingo Game</h1>
-        <div id="number-container">{{ selected_number}}</div>
-        <button id="start-button" onclick="scrollNumbers()">Start</button>
-        <button onclick="startNewGame()">New Game</button>
-
-        <form method="POST" action="{% url 'save_selected_number' %}" id="bingo-form" style="display: none;">
-            {% csrf_token %}
-            <input type="hidden" name="selected_number" id="selected-number-input">
-        </form>
-    </div>
-
-    
-
-        <div id="bingo-table">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>B</th>
-                        <th>I</th>
-                        <th>N</th>
-                        <th>G</th>
-                        <th>O</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for bingo in bingo_card %}
-                    <tr>
-                        {% for number in bingo %}
-                        <td>{{ number }}</td>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bingo Game</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container-fluid vh-100">
+        <div class="row h-100" style="z-index: 1000;">
+            <div class="col-md-6 " id="bingo-table">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>B</th>
+                            <th>I</th>
+                            <th>N</th>
+                            <th>G</th>
+                            <th>O</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for bingo in bingo_card %}
+                        <tr>
+                            {% for number in bingo %}
+                            <td>{{ number }}</td>
+                            {% endfor %}
+                        </tr>
                         {% endfor %}
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-6 big d-flex align-items-center justify-content-center">
+                <div id="bingo_page">
+                    <h1>Bingo Game</h1>
+                    <div id="number-container">{{ selected_number}}</div>
+                    <button id="start-button" onclick="scrollNumbers()">Start</button>
+                    <button onclick="startNewGame()">New Game</button>
     
-
-
-</div>
+                    <form method="POST" action="{% url 'save_selected_number' %}" id="bingo-form" style="display: none;">
+                        {% csrf_token %}
+                        <input type="hidden" name="selected_number" id="selected-number-input">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
