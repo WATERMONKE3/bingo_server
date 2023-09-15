@@ -15,6 +15,7 @@ def home(request):
 def bingo(request):
     context = {}
     # Get the selected_numbers_array from the session or initialize it as an empty list
+    selected_numbers_array = request.session.get('selected_numbers_array', [])
     bingo_card = request.session.get('bingo_card', [])
     selected_number = request.session.get('selected_number', 0)
     if selected_number:
@@ -28,9 +29,8 @@ def bingo(request):
     # if selected_number not in selected_numbers_array:
     #     selected_numbers_array.append(selected_number)
     #     request.session['selected_numbers_array'] = selected_numbers_array
-    all_numbers = list(range(1, 76))
     if not BingoNumber.objects.exists():
-        for i in all_numbers:
+        for i in range(1, 76):
             bingo_number = BingoNumber(number=i)
             if i <= 15:
                 bingo_number.bingo = 'B'
@@ -53,7 +53,7 @@ def bingo(request):
     n_numbers = BingoNumber.objects.filter(bingo='N', is_drawn=True)
     g_numbers = BingoNumber.objects.filter(bingo='G', is_drawn=True)
     o_numbers = BingoNumber.objects.filter(bingo='O', is_drawn=True)
-
+    all_numbers = [x.number for x in BingoNumber.objects.filter(is_drawn=False)]
     # get most number of rows
     rows = max(len(b_numbers), len(i_numbers), len(n_numbers), len(g_numbers), len(o_numbers))
 
