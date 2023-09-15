@@ -38,6 +38,18 @@
             border: 1px solid #ccc;
             overflow: auto; /* Enable scrollbar when content exceeds dimensions */
         }
+        .fade-scale {
+            transform: scale(0);
+            opacity: 0;
+            -webkit-transition: all .25s linear;
+            -o-transition: all .25s linear;
+            transition: all .25s linear;
+        }
+
+        .fade-scale.in {
+            opacity: 1;
+            transform: scale(1);
+        }
     </style>
 </head>
 
@@ -75,7 +87,7 @@
                 </div>
             </div>
                         
-            <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal zoom" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">

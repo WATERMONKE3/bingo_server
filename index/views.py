@@ -48,11 +48,11 @@ def bingo(request):
         for i in range(15):
             bingo_card.append([])
         request.session['bingo_card'] = bingo_card
-    b_numbers = BingoNumber.objects.filter(bingo='B', is_drawn=True)
-    i_numbers = BingoNumber.objects.filter(bingo='I', is_drawn=True)
-    n_numbers = BingoNumber.objects.filter(bingo='N', is_drawn=True)
-    g_numbers = BingoNumber.objects.filter(bingo='G', is_drawn=True)
-    o_numbers = BingoNumber.objects.filter(bingo='O', is_drawn=True)
+    b_numbers = BingoNumber.objects.filter(bingo='B', is_drawn=True).order_by('time_drawn')
+    i_numbers = BingoNumber.objects.filter(bingo='I', is_drawn=True).order_by('time_drawn')
+    n_numbers = BingoNumber.objects.filter(bingo='N', is_drawn=True).order_by('time_drawn')
+    g_numbers = BingoNumber.objects.filter(bingo='G', is_drawn=True).order_by('time_drawn')
+    o_numbers = BingoNumber.objects.filter(bingo='O', is_drawn=True).order_by('time_drawn')
     all_numbers = [x.number for x in BingoNumber.objects.filter(is_drawn=False)]
     # get most number of rows
     rows = max(len(b_numbers), len(i_numbers), len(n_numbers), len(g_numbers), len(o_numbers))
