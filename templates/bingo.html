@@ -80,16 +80,16 @@
 
         // Simulate scrolling animation
         var interval = setInterval(function () {
-            var randomNumber = Math.floor(Math.random() * 10);
-            $("#number-container").text(randomNumber);
-        }, 100);
+            var randomI = Math.floor(Math.random() * numbers.length);
+            $("#number-container").text(numbers[randomI]);
+        }, 50);
 
         // Stop scrolling after 1 second (adjust the duration as needed)
         setTimeout(function () {
             clearInterval(interval);
             $("#number-container").text(numberToDisplay);
             stopScrolling();
-        }, 1000);
+        }, 3000);
     } else {
         alert("All numbers have been selected.");
     }
