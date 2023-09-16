@@ -9,9 +9,116 @@
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
+
+<style>
+    body {
+        background-color: #f0f0f0;
+        padding: 20px;
+    }
+
+    .container-fluid {
+    background: linear-gradient(to bottom, #ffffff, #f0f0f0);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    margin-top: 20px;
+}
+
+
+    /* Style the Bingo table */
+    #bingo-table {
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        padding: 20px;
+        margin-bottom: 100px;
+
+    }
+
+    table.table {
+        width: 100%;
+    }
+    table.table tr{
+        text-align: center;
+    }
+
+    table.table th {
+        font-weight: bold;
+        font-size: 35px;
+    }
+
+    table.table td {
+        font-size: 24px;
+        text-align: center;
+    }
+
+    /* Style the Bingo page */
+    #bingo_page {
+        text-align: center;
+        
+    }
+
+    h1 {
+        font-size: 36px;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    #number-container {
+        font-size: 48px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: #333;
+        background: cornsilk;
+        
+    }
+
+    button {
+        font-size: 18px;
+        padding: 10px 20px;
+        background-color: #007BFF;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    /* Style the New Game button */
+    button:nth-child(2) {
+        background-color: #dc3545;
+    }
+
+    button:nth-child(2):hover {
+        background-color: #bd2130;
+    }
+
+
+    #number-container .scrolling {
+        animation: scroll 1s linear;
+        /* Adjust animation duration as needed */
+    }
+
+    @keyframes scroll {
+        0% {
+            transform: translateY(0);
+        }
+
+        100% {
+            transform: translateY(-100%);
+        }
+    }
+</style>
 </head>
 <body>
+    
     <div class="container-fluid vh-100">
+        <h2 style="text-align: center;">Bingo Game</h2>
         <div class="row h-100" style="z-index: 1000;">
             <div class="col-md-6 " id="bingo-table">
                 <table class="table">
@@ -36,9 +143,9 @@
                 </table>
             </div>
             <div class="col-md-6 big d-flex align-items-center justify-content-center">
-                <div id="bingo_page">
-                    <h1>Bingo Game</h1>
-                    <div id="number-container">{{ selected_number}}</div>
+                <div id="bingo_page" >
+                    <h1>Roll Number</h1>
+                    <div id="number-container" style="height: 85px;padding: inherit;">{{ selected_number }}</div>
                     <button id="start-button" onclick="scrollNumbers()">Start</button>
                     <button onclick="startNewGame()">New Game</button>
     
@@ -59,41 +166,41 @@
     var selected_number = {{ selected_number|default:"0" }};
     var scrolling = false;
 
- function scrollNumbers() {
-    if (numbers.length > 0 && !scrolling) {
-        scrolling = true;
-        var randomIndex = Math.floor(Math.random() * numbers.length);
-        var numberToDisplay = numbers[randomIndex];
+    function scrollNumbers() {
+        if (numbers.length > 0 && !scrolling) {
+            scrolling = true;
+            var randomIndex = Math.floor(Math.random() * numbers.length);
+            var numberToDisplay = numbers[randomIndex];
 
-        // Disable the button while scrolling is in progress
-        $("#start-button").prop("disabled", true);
+            // Disable the button while scrolling is in progress
+            $("#start-button").prop("disabled", true);
 
-        // Create a function to stop scrolling and display the number
-        function stopScrolling() {
-            selected_number = numberToDisplay;
-            $("#selected-number-input").val(selected_number);
-            numbers.splice(randomIndex, 1);
-            scrolling = false;
-            $("#start-button").prop("disabled", false);
-            $("#bingo-form").submit(); // Automatically submit the form after scrolling
+            // Create a function to stop scrolling and display the number
+            function stopScrolling() {
+                selected_number = numberToDisplay;
+                $("#selected-number-input").val(selected_number);
+                numbers.splice(randomIndex, 1);
+                scrolling = false;
+                $("#start-button").prop("disabled", false);
+                $("#bingo-form").submit(); // Automatically submit the form after scrolling
+            }
+
+            // Simulate scrolling animation
+            var interval = setInterval(function () {
+                var randomI = Math.floor(Math.random() * numbers.length);
+                $("#number-container").text(numbers[randomI]);
+            }, 50);
+
+            // Stop scrolling after 1 second (adjust the duration as needed)
+            setTimeout(function () {
+                clearInterval(interval);
+                $("#number-container").text(numberToDisplay);
+                stopScrolling();
+            }, 3000);
+        } else {
+            alert("All numbers have been selected.");
         }
-
-        // Simulate scrolling animation
-        var interval = setInterval(function () {
-            var randomI = Math.floor(Math.random() * numbers.length);
-            $("#number-container").text(numbers[randomI]);
-        }, 50);
-
-        // Stop scrolling after 1 second (adjust the duration as needed)
-        setTimeout(function () {
-            clearInterval(interval);
-            $("#number-container").text(numberToDisplay);
-            stopScrolling();
-        }, 3000);
-    } else {
-        alert("All numbers have been selected.");
     }
-}
 
     $(document).ready(function () {
         $("#start-button").on("click", function () {
