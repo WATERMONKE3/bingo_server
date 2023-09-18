@@ -9,7 +9,10 @@
     <link rel="stylesheet" href="{% static 'style.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
 
 <style>
     body {
@@ -21,6 +24,7 @@
     background-position: center center; /* Optional: centers the background */
     padding: 20px;
     opacity: 1.0; /* Adjust the opacity value as needed (0.0 to 1.0) */
+    font-family: 'Lato', sans-serif;
     }
 
     .container-fluid {
@@ -31,19 +35,22 @@
     margin-top: 10px;
     height: 900px;
 }
-
+    
 
     /* Style the Bingo table */
     #bingo-table {
-        background-color: #fff;
-        border-radius: 5px;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        background-color: #ffffff;
+        border-radius: 15px;
+        box-shadow: inset 0 0 20px 9px rgba(0, 0, 0, 0.5);
         padding: 20px;
-        margin-bottom: 100px;
-
+        height: 700px;
+        overflow-y: scroll;
+        font-family: 'Lato', sans-serif;
+        font-weight: bolder;
     }
 
     table.table {
+        --bs-table-bg: #00000000;
         width: 100%;
     }
     table.table tr{
@@ -53,6 +60,14 @@
     table.table th {
         font-weight: bold;
         font-size: 35px;
+        position: sticky;
+    }
+
+    table.table td {
+        font-size: 24px;
+        text-align: center;
+        padding-top: 0;
+        padding-bottom: 0;
     }
 
     table.table td {
@@ -85,15 +100,11 @@
     }
 
     #number-container {
-        font-size: 48px;
-        font-weight: bold;
-        margin-bottom: 20px;
-        color: #333;
-        background: cornsilk;
-        
-        
-    }
-
+    font-size: 100px;
+    font-weight: bold;
+    /* color: #333; */
+    /* background: cornsilk; */
+}
     button {
         font-size: 18px;
         padding: 10px 20px;
@@ -133,41 +144,157 @@
             transform: translateY(-100%);
         }
     }
+
+
+    /* FOR BINGO NUMBER ROLL ANIMATION */
+
+    .retro-signboard {
+            background-color: #F4D03F;
+            border-radius: 20px;
+            box-shadow: 0 0 20px 9px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            width: fit-content;
+
+        }
+        .inner-signboard {
+            background-color: #06636d;          
+            border: 10px solid #F4D03F; /* Set your desired border color */
+            text-align: center;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: inset 0 0 20px 9px rgba(0, 0, 0, 0.5);
+            height: 200px;
+            width: 200px;
+        }
+
+        .retro-signboard>div {
+            font-family: 'Courier New', monospace;
+            color: #F4D03F; /* Set your desired text color */
+            margin-bottom: 30px;
+        }
+         /* Glowing circle styles */
+        .glowing-circle {
+            background-color: #fff;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: glow .5s infinite alternate;
+            box-shadow: 0 0 20px 20px rgb(255 255 255 / 50%);
+        }
+        .border-line-horizontal{
+            display: flex;
+            justify-content: space-between;
+        }
+        .border-line-vertical{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+        }
+        @keyframes glow {
+            0% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+        }
+        /* Scrollbar design */
+        ::-webkit-scrollbar-track
+        {
+            display: none;
+        }
+
+        ::-webkit-scrollbar
+        {
+
+            display: none;
+
+        }
+
+        ::-webkit-scrollbar-thumb
+        {
+            display: none;
+        }
+        
+        .bt{
+            transition: transform 0.2s; /* Add a small animation on hover */
+            margin: 10px;
+            box-shadow: inset 0 0 5px .1px rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+        }
+
 </style>
 </head>
 <body>
-    
     <div class="container-fluid">
-        <h2 style="text-align: center;">Bingo Game</h2>
-        <div class="row h-100 d-flex" style="z-index: 1000;">
-            <div class="col-md-6 d-flex" id="bingo-table">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>B</th>
-                            <th>I</th>
-                            <th>N</th>
-                            <th>G</th>
-                            <th>O</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for bingo in bingo_card %}
-                        <tr>
-                            {% for number in bingo %}
-                            <td>{{ number }}</td>
+        <h2 style="text-align: center; font-family: 'Anton', sans-serif; font-size:50px;">Bingo Game</h2>
+        {% include 'home.html' %}
+        <div class="row h-95 d-flex" style="z-index: 1000;">
+            <div class="col-md-6 big d-flex align-items-center justify-content-center">
+                <div class="container ml-3 mt-5" id="bingo-table">
+                    <table class="table">
+                        <thead class="sticky">
+                            <tr>
+                                <th>B</th>
+                                <th>I</th>
+                                <th>N</th>
+                                <th>G</th>
+                                <th>O</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for bingo in bingo_card %}
+                            <tr>
+                                {% for number in bingo %}
+                                <td>{{ number }}</td>
+                                {% endfor %}
+                            </tr>
                             {% endfor %}
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="col-md-6 big d-flex align-items-center justify-content-center">
-                <div id="bingo_page" >
-                    <h1>Roll Number</h1>
-                    <div id="number-container" style="height: 85px;padding: inherit;">{{ selected_number }}</div>
-                    <button id="start-button" onclick="scrollNumbers()">Start</button>
-                    <button onclick="startNewGame()">New Game</button>
+                <div id="bingo_page">
+                    <div class="text-center retro-signboard">
+                        <div class="border-line-horizontal">
+                            <div class="glowing-circle"></div>
+                            <div class="glowing-circle"></div>
+                            <div class="glowing-circle"></div>
+                            <div class="glowing-circle"></div>
+                            <div class="glowing-circle"></div>
+                        </div>
+                        <div class="center-blocks d-flex justify-content-between">
+                            <div class="border-line-vertical d-flex justify-content-between">
+                                <div class="glowing-circle"></div>
+                                <div class="glowing-circle"></div>
+                                <div class="glowing-circle"></div>
+            
+                            </div>
+                            <div class="inner-signboard">
+                                <div class="" id="number-container">{{selected_number}}</div>
+                            </div>
+                            <div class="border-line-vertical d-flex justify-content-between">
+                                <div class="glowing-circle"></div>
+                                <div class="glowing-circle"></div>
+                                <div class="glowing-circle"></div>
+            
+                            </div>
+            
+                        </div>
+                        <div class="border-line-horizontal">
+                            <div class="glowing-circle"></div>
+                            <div class="glowing-circle"></div>
+                            <div class="glowing-circle"></div>
+                            <div class="glowing-circle"></div>
+                            <div class="glowing-circle"></div>
+                        </div>
+                    </div>
+                    <button class="bt" id="start-button" onclick="scrollNumbers()">Start</button>
+                    <button class="bt" onclick="startNewGame()">New Game</button>
+                </div>
     
                     <form method="POST" action="{% url 'save_selected_number' %}" id="bingo-form" style="display: none;">
                         {% csrf_token %}
@@ -216,7 +343,7 @@
                 clearInterval(interval);
                 $("#number-container").text(numberToDisplay);
                 stopScrolling();
-            }, 3000);
+            }, 0);
         } else {
             alert("All numbers have been selected.");
         }
