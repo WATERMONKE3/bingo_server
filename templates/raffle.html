@@ -10,20 +10,19 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 
-
     <style>
         .bg_rice_img{
             background-image: url("{% static 'images/rice.jpg' %}");
-            background-size: cover; /* or contain, or a specific size */
-            background-repeat: no-repeat; /* or repeat-x, repeat-y, or repeat */
-            background-position: center center; /* or any other position */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
         }
         
-        .table{
+        .table {
             --bs-table-bg: #00000000 !important;
             --bs-table-border-color: #00000000 !important;
         }
-        #confetti{
+        #confetti {
             height: 100%;
             left: 0px;
             position: fixed;
@@ -31,7 +30,7 @@
             width: 100%;
             z-index: -1;
         }
-        .modal-header{
+        .modal-header {
             padding-bottom: 0;
             border-bottom: none;
         }
@@ -40,14 +39,15 @@
             height: 100%;
             display: flex;
             flex-direction: column;
-            align-items: center; /* Center horizontally */
-            justify-content: center; /* Center vertically */
+            align-items: center;
+            justify-content: center;
         }
         .table-container {
-            max-height: 850px; /* Adjust the maximum height as needed */
+            max-height: 850px;
             overflow-y: auto;
             border: 1px solid #000000;
             border-radius: 10px;
+            background-color: #f0f8ff5e;
         }
         .btn-primary{
             border: 0;
@@ -62,6 +62,22 @@
         .fs-1{
             font-size: 8rem  !important;
         }
+
+        ::-webkit-scrollbar {
+            color: transparent;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent; 
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: transparent; 
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: transparent; 
+        }
     </style>
 </head>
 
@@ -69,10 +85,11 @@
     <div class="container-fluid vh-100">
         <div class="row py-5 h-100" style="z-index: 1000;">
             <div class="col-md-6 d-flex align-items-center justify-content-center">
-                <div class="text-center">
-                    <div class="fs-1" id="numberRoller">{{winner_number}}</div>
-                    
-                    <button class="w-100 btn btn-primary btn-lg" id="rollButton">ROLL</button>
+                <div class="card p-3">
+                    <div class="card-body text-center">
+                        <div class="fs-1" id="numberRoller">{{winner_number}}</div>
+                    </div>
+                    <button class="w-100 btn btn-primary btn-lg" id="rollButton">Roll</button>
                 </div>
             </div>
             <div class="col-md-6">
@@ -115,24 +132,25 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.js"></script>
+
     <div id="confetti"></div>
     <div class="bg_rice_img fixed-top vh-100" style="z-index: -2;"></div>
-    <!-- Form to submit the winner number -->
+
     <form id="winnerForm" method="POST" action="{% url 'save_winner' %}">
         {% csrf_token %}
         <input type="hidden" name="winner_number" id="winnerNumberField">
     </form>
+
     <script>
         function launchModal() {
             $('#myModal').modal('show');
         }
+
         function animateScroll() {
             var div = document.getElementById("myDiv");
-            var targetScrollTop = div.scrollTop + 100; // Change this value as needed
-            var duration = 1000; // Duration of the animation in milliseconds
+            var targetScrollTop = div.scrollTop + 100;
+            var duration = 1000;
 
-            // Calculate the difference in scroll positions
             var scrollDifference = targetScrollTop - div.scrollTop;
             var startTime = null;
 
@@ -149,61 +167,47 @@
             }
 
             requestAnimationFrame(scrollAnimation);
-            console.log("scroll");
         }
+
         winnerForm = document.getElementById('winnerForm');
         winnerNumberField = document.getElementById('winnerNumberField');
-        // Function to reshuffle and roll the numbers with seeded random
+
         function rollNumbers() {
             const numberRoller = document.getElementById('numberRoller');
             const rollButton = document.getElementById('rollButton');
-            let ticketNumbers = {{ ticket_numbers|safe }}; // Load ticket numbers from the context
-
-            // Generate a random seed based on the current time in seconds
+            let ticketNumbers = {{ ticket_numbers|safe }};
             const seed = Math.floor(Date.now() / 1000);
-
-            // Initialize the random number generator with the seed
             const seededRandom = new Math.seedrandom(seed);
 
-            // Shuffle the ticketNumbers using the seeded random generator
             for (let i = ticketNumbers.length - 1; i > 0; i--) {
                 const j = Math.floor(seededRandom() * (i + 1));
                 [ticketNumbers[i], ticketNumbers[j]] = [ticketNumbers[j], ticketNumbers[i]];
             }
 
-            // Disable the button temporarily to prevent multiple clicks
             rollButton.disabled = true;
 
-            // Roll the numbers with animation for 3 seconds
             let currentIndex = 0;
             const startTime = Date.now();
-            const rollDuration = .1; // 3 seconds
+            const rollDuration = .1;
 
             const interval = setInterval(function() {
                 if (Date.now() - startTime < rollDuration) {
                     numberRoller.textContent = ticketNumbers[currentIndex];
                     currentIndex++;
                     if (currentIndex >= ticketNumbers.length) {
-                        currentIndex = 0; // Loop back to the beginning
+                        currentIndex = 0;
                     }
                 } else {
                     clearInterval(interval);
-                    // Display the final rolled number
                     numberRoller.textContent = ticketNumbers[ticketNumbers.length - 1];
-                    // Set the winner number in the hidden field
                     winnerNumberField.value = ticketNumbers[ticketNumbers.length - 1];
-                    // Submit the form
                     winnerForm.submit();
                 }
             }, 100);
         }
 
-
-
-        // Attach the rollNumbers function to the button's click event
         const rollButton = document.getElementById('rollButton');
         rollButton.addEventListener('click', rollNumbers);
-
     </script>
 </body>
 </html>
