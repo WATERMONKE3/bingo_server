@@ -13,8 +13,13 @@
 
 <style>
     body {
-        background-color: #1c9fd5;
-        padding: 20px;
+    background-image: url("{% static 'images/bingo.svg' %}");
+    background-repeat: no-repeat;
+    background-size: cover; /* or 'contain' based on your preference */
+    background-attachment: fixed; /* Optional: keeps the background fixed */
+    background-position: center center; /* Optional: centers the background */
+    padding: 20px;
+    opacity: 1.0; /* Adjust the opacity value as needed (0.0 to 1.0) */
     }
 
     .container-fluid {
