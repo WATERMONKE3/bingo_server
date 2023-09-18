@@ -79,7 +79,6 @@ def bingo(request):
         except IndexError:
             bingo_card[i].append('')
 
-    print(bingo_card)
 
     context.update({'bingo_card': bingo_card, 'numbers': all_numbers})
 
