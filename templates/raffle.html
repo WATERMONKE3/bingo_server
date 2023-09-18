@@ -63,6 +63,9 @@
             font-size: 8rem  !important;
         }
 
+        .card{
+            border-radius: 10px;
+        }
         ::-webkit-scrollbar {
             color: transparent;
         }
@@ -89,7 +92,7 @@
                     <div class="card-body text-center">
                         <div class="fs-1" id="numberRoller">{{winner_number}}</div>
                     </div>
-                    <button class="w-100 btn btn-primary btn-lg" id="rollButton">Roll</button>
+                    <button class="w-100 btn btn-primary btn-lg" id="rollButton">ROLL</button>
                 </div>
             </div>
             <div class="col-md-6">
@@ -188,7 +191,7 @@
 
             let currentIndex = 0;
             const startTime = Date.now();
-            const rollDuration = .1;
+            const rollDuration = 3000;
 
             const interval = setInterval(function() {
                 if (Date.now() - startTime < rollDuration) {
