@@ -107,7 +107,7 @@
             border-radius: 50%;
             width: 30px;
             height: 30px;
-            animation: glow 2s infinite alternate;
+            animation: glow 1.5s infinite alternate;
             box-shadow: 0 0 20px 20px rgb(255 255 255 / 50%);
         }
         .border-line-horizontal{
@@ -171,6 +171,8 @@
 
 <body {% if winner_number != none_char %} onload="launchModal()" {% endif %}>
     <canvas id="confetti"></canvas>
+    <audio id="drum_roll" src="{% static 'audio/mix_06s (audio-joiner.com).mp3' %}"></audio>
+    <audio id="tada" src="{% static 'audio/tada-81529.mp3' %}"></audio>
     <div class="container-fluid vh-100">
         <div class="row py-5 h-100" style="z-index: 1000;">
             <div class="col-md-6" style="display: flex;align-content: center;flex-wrap: wrap;justify-content: center;">
@@ -262,6 +264,17 @@
     </form>
     <script>
         const jsConfetti = new JSConfetti();
+        // script.js
+        function playSound(soundid) {
+            const sound = document.getElementById(soundid);
+            
+            // Check if the audio element is supported by the browser
+            if (sound && typeof sound.play === 'function') {
+                sound.play();
+            } else {
+                alert('Audio playback is not supported in this browser.');
+            }
+        }
 
         function launchModal() {
             $('#myModal').modal('show');
@@ -276,6 +289,7 @@
                 //     '#ff0000', '#ffcc00', '#00ff00', '#0000ff', '#ff00ff', '#00ffff', '#ffff00', '#ff8000', '#8000ff', '#00ff80', '#ff0080', '#80ff00', '#0080ff', '#ff80ff', '#80ffff', '#ffff80', '#ff4000', '#4000ff', '#00ff40', '#ff0040', '#40ff00', '#0040ff', '#ff40ff', '#40ffff', '#ffff40', '#ffbf00', '#bf00ff', '#00ffbf', '#ff00bf', '#bfff00', '#00bfff', '#ffbfff', '#bfffff', '#ffffbf', '#ff4000', '#4000ff', '#00ff40', '#ff0040', '#40ff00', '#0040ff', '#ff40ff', '#40ffff', '#ffff40', '#ffbf00', '#bf00ff', '#00ffbf', '#ff00bf', '#bfff00', '#00bfff', '#ffbfff', '#bfffff', '#ffffbf', '#ff4000', '#4000ff', '#00ff40', '#ff0040', '#40ff00', '#0040ff', '#ff40ff', '#40ffff', '#ffff40', '#ffbf00', '#bf00ff', '#00ffbf', '#ff00bf', '#bfff00', '#00bfff', '#ffbfff', '#bfffff', '#ffffbf', '#ff4000', '#4000ff', '#00ff40', '#ff0040', '#40ff00', '#0040ff', '#ff40ff', '#40ffff', '#ffff40', '#ffbf00', '#bf00ff', '#00ffbf', '#ff00bf', '#bfff00', '#00bfff', '#ffbfff', '#bfffff', '#ffffbf'
                 // ]
             })
+            playSound('tada');
         }
         function animateRowBackgroundColor() {
             const row = document.getElementById('animated-row');
@@ -316,6 +330,7 @@
         winnerNumberField = document.getElementById('winnerNumberField');
         // Function to reshuffle and roll the numbers with seeded random
         function rollNumbers() {
+            playSound('drum_roll');
             const numberRoller = document.getElementById('numberRoller');
             const rollButton = document.getElementById('rollButton');
             let ticketNumbers = {{ ticket_numbers|safe }}; // Load ticket numbers from the context

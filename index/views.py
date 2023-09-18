@@ -164,11 +164,8 @@ def raffle(request):
 
 def import_raffle_entries(request):
     # Path to your CSV file
-    try:
-        if request.session['winner_number']:
-            del request.session['winner_number']
-    except KeyError:
-        pass
+    if request.session['winner_number']:
+        del request.session['winner_number']
     csv_file_path = 'C:/Users/licaros.jazfer/Documents/GitHub/bingo_server/dummy_data.csv'
 
     try:
@@ -190,7 +187,7 @@ def import_raffle_entries(request):
                         solicitor=solicitor
                     )
                     raffle_entry.save()
-        request.session['winner_number'] = 0
+        request.session['winner_number'] = '00000'
         return redirect('home')
     except FileNotFoundError:
         print("File not found")
