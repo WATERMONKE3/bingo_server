@@ -10,6 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
 
     <style>
         .bg_rice_img{
@@ -22,14 +23,6 @@
         .table{
             --bs-table-bg: #00000000 !important;
             --bs-table-border-color: #00000000 !important;
-        }
-        #confetti{
-            height: 100%;
-            left: 0px;
-            position: fixed;
-            top: 0px;
-            width: 100%;
-            z-index: -1;
         }
         .modal-header{
             padding-bottom: 0;
@@ -62,18 +55,110 @@
         .fs-1{
             font-size: 8rem  !important;
         }
+        canvas#confetti {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        top: 0px;
+        left: 0px;
+        z-index: -1;
+        pointer-events: none;
+        }
+        .modal{
+            z-index: 1051!important;
+        }
+        
+        .retro-signboard {
+            background-color: #F4D03F;
+            border-radius: 20px;
+            box-shadow: 0 0 20px 9px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+        .inner-signboard {
+            background-color: #ff0000;
+            border: 10px solid #F4D03F; /* Set your desired border color */
+            text-align: center;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: inset 0 0 20px 9px rgba(0, 0, 0, 0.5);
+        }
+
+        .retro-signboard>div {
+            font-family: 'Courier New', monospace;
+            color: #F4D03F; /* Set your desired text color */
+            margin: 0;
+        }
+         /* Glowing circle styles */
+        .glowing-circle {
+            background-color: #fff;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: glow .5s infinite alternate;
+            box-shadow: 0 0 20px 20px rgb(255 255 255 / 50%);
+        }
+        .border-line-horizontal{
+            display: flex;
+            justify-content: space-between;
+        }
+        .border-line-vertical{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+        }
+        @keyframes glow {
+            0% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 
 <body {% if winner_number %} onload="launchModal()" {% endif %}>
-    
+    <canvas id="confetti"></canvas>
     <div class="container-fluid vh-100">
         <div class="row py-5 h-100" style="z-index: 1000;">
             <div class="col-md-6 d-flex align-items-center justify-content-center">
-                <div class="text-center">
-                    <div class="fs-1" id="numberRoller">{{winner_number}}</div>
-                    
-                    <button class="w-100 btn btn-primary btn-lg" id="rollButton">ROLL</button>
+                <div class="text-center retro-signboard">
+                    <div class="border-line-horizontal">
+                        <div class="glowing-circle"></div>
+                        <div class="glowing-circle"></div>
+                        <div class="glowing-circle"></div>
+                        <div class="glowing-circle"></div>
+                        <div class="glowing-circle"></div>
+                    </div>
+                    <div class="center-blocks d-flex">
+                        <div class="border-line-vertical">
+                            <div class="glowing-circle"></div>
+                            <div class="glowing-circle"></div>
+                            <div class="glowing-circle"></div>
+
+                        </div>
+                        <div class="inner-signboard">
+                            <div class="fs-1" id="numberRoller">{{winner_number}}</div>
+                            
+                            <button class="w-100 btn btn-primary btn-lg" id="rollButton">ROLL</button>
+                        </div>
+                        <div class="border-line-vertical">
+                            <div class="glowing-circle"></div>
+                            <div class="glowing-circle"></div>
+                            <div class="glowing-circle"></div>
+
+                        </div>
+                        
+                    </div>
+                    <div class="border-line-horizontal">
+                        <div class="glowing-circle"></div>
+                        <div class="glowing-circle"></div>
+                        <div class="glowing-circle"></div>
+                        <div class="glowing-circle"></div>
+                        <div class="glowing-circle"></div>
+                    </div>
                 </div>
             </div>
             <div class="col-md-6">
@@ -124,8 +209,12 @@
         <input type="hidden" name="winner_number" id="winnerNumberField">
     </form>
     <script>
+        const jsConfetti = new JSConfetti();
+
         function launchModal() {
             $('#myModal').modal('show');
+            jsConfetti.addConfetti({
+            }).then(() => jsConfetti.addConfetti())
         }
         function animateScroll() {
             var div = document.getElementById("myDiv");
