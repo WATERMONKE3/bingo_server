@@ -13,6 +13,7 @@
 
 <style>
     body {
+    overflow: hidden;
     background-image: url("{% static 'images/bingo.svg' %}");
     background-repeat: no-repeat;
     background-size: cover; /* or 'contain' based on your preference */
@@ -27,7 +28,8 @@
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     padding: 20px;
-    margin-top: 20px;
+    margin-top: 10px;
+    height: 900px;
 }
 
 
@@ -135,10 +137,10 @@
 </head>
 <body>
     
-    <div class="container-fluid vh-100">
+    <div class="container-fluid">
         <h2 style="text-align: center;">Bingo Game</h2>
-        <div class="row h-100" style="z-index: 1000;">
-            <div class="col-md-6 " id="bingo-table">
+        <div class="row h-100 d-flex" style="z-index: 1000;">
+            <div class="col-md-6 d-flex" id="bingo-table">
                 <table class="table">
                     <thead>
                         <tr>
