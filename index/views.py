@@ -149,14 +149,16 @@ def save_winner(request):
     return redirect('raffle')
 def raffle(request):
     context = {}
-    winner_number = request.session.get('winner_number', 0)
-    if winner_number:
+    none_char = '00000'
+    winner_number = request.session.get('winner_number', none_char)
+    if winner_number != none_char:
+        print(winner_number)
         current_winner = Winner.objects.get(ticket_number=winner_number)
         winners = Winner.objects.all().order_by('date')
         context.update({'winners': winners, 'current_winner': current_winner})
     raffle_entries = RaffleEntry.objects.all()
     ticket_numbers = [raffle_entry.ticket_number for raffle_entry in raffle_entries]
-    context.update({'ticket_numbers': ticket_numbers, 'winner_number': winner_number})
+    context.update({'ticket_numbers': ticket_numbers, 'winner_number': winner_number, 'none_char': none_char})
     
     return render(request, 'raffle.html', context)
 
@@ -185,7 +187,7 @@ def import_raffle_entries(request):
                         solicitor=solicitor
                     )
                     raffle_entry.save()
-        request.session['winner_number'] = 0
+        request.session['winner_number'] = '00000'
         return redirect('home')
     except FileNotFoundError:
         print("File not found")
