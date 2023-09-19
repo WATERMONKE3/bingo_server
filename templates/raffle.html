@@ -44,7 +44,6 @@
         .table-container {
             max-height: 850px; /* Adjust the maximum height as needed */
             overflow-y: auto;
-            border: 1px solid #000000;
             border-radius: 10px;
         }
         .btn-primary{
@@ -68,13 +67,13 @@
             font-size: 8rem  !important;
         }
         canvas#confetti {
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        top: 0px;
-        left: 0px;
-        z-index: -1;
-        pointer-events: none;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0px;
+            left: 0px;
+            z-index: -1;
+            pointer-events: none;
         }
         .modal{
             z-index: 1051!important;
@@ -111,10 +110,12 @@
             box-shadow: 0 0 20px 20px rgb(255 255 255 / 50%);
         }
         .border-line-horizontal{
+            padding: 5px;
             display: flex;
             justify-content: space-between;
         }
         .border-line-vertical{
+            padding: 5px;
             display: flex;
             flex-direction: column;
             justify-content: space-evenly;
@@ -147,7 +148,8 @@
             display: none;
         }
         td{
-            padding: 0!important;
+            padding-top: 0!important;
+            padding-bottom: 0!important;
         }
         @keyframes blink {
             0%, 100% {
@@ -185,6 +187,7 @@
                             <div class="glowing-circle"></div>
                             <div class="glowing-circle"></div>
                             <div class="glowing-circle"></div>
+                            <div class="glowing-circle"></div>
                         </div>
                         <div class="center-blocks d-flex">
                             <div class="border-line-vertical">
@@ -202,6 +205,7 @@
                             </div>
                         </div>
                         <div class="border-line-horizontal">
+                            <div class="glowing-circle"></div>
                             <div class="glowing-circle"></div>
                             <div class="glowing-circle"></div>
                             <div class="glowing-circle"></div>
@@ -282,12 +286,9 @@
                 confettiRadius: 15,
                 confettiNumber: 500,
                 // emojis: ['🌽'],
-                confettiColors: [
-                    '#fff',
-                ],
-                // confettiColors:[
-                //     '#ff0000', '#ffcc00', '#00ff00', '#0000ff', '#ff00ff', '#00ffff', '#ffff00', '#ff8000', '#8000ff', '#00ff80', '#ff0080', '#80ff00', '#0080ff', '#ff80ff', '#80ffff', '#ffff80', '#ff4000', '#4000ff', '#00ff40', '#ff0040', '#40ff00', '#0040ff', '#ff40ff', '#40ffff', '#ffff40', '#ffbf00', '#bf00ff', '#00ffbf', '#ff00bf', '#bfff00', '#00bfff', '#ffbfff', '#bfffff', '#ffffbf', '#ff4000', '#4000ff', '#00ff40', '#ff0040', '#40ff00', '#0040ff', '#ff40ff', '#40ffff', '#ffff40', '#ffbf00', '#bf00ff', '#00ffbf', '#ff00bf', '#bfff00', '#00bfff', '#ffbfff', '#bfffff', '#ffffbf', '#ff4000', '#4000ff', '#00ff40', '#ff0040', '#40ff00', '#0040ff', '#ff40ff', '#40ffff', '#ffff40', '#ffbf00', '#bf00ff', '#00ffbf', '#ff00bf', '#bfff00', '#00bfff', '#ffbfff', '#bfffff', '#ffffbf', '#ff4000', '#4000ff', '#00ff40', '#ff0040', '#40ff00', '#0040ff', '#ff40ff', '#40ffff', '#ffff40', '#ffbf00', '#bf00ff', '#00ffbf', '#ff00bf', '#bfff00', '#00bfff', '#ffbfff', '#bfffff', '#ffffbf'
-                // ]
+                confettiColors:[
+                    '#ff0000', '#ffcc00', '#00ff00', '#0000ff', '#ff00ff', '#00ffff', '#ffff00', '#ff8000', '#8000ff', '#00ff80', '#ff0080', '#80ff00', '#0080ff', '#ff80ff', '#80ffff', '#ffff80', '#ff4000', '#4000ff', '#0040ff', '#ff40ff', '#40ffff', '#ffbf00', '#bf00ff', '#00ffbf', '#ff00bf', '#bfff00', '#00bfff',
+                ]
             })
             playSound('tada');
         }
