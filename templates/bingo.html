@@ -7,7 +7,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bingo Game</title>
-    <link rel="stylesheet" href="{% static 'style.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
@@ -90,11 +89,6 @@
 
         }
 
-        /* h1 {
-        font-size: 36px;
-        margin-bottom: 20px;
-        color: #333;
-    } */
 
         h1 {
             font-size: 3rem;
@@ -139,21 +133,6 @@
             background-color: #bd2130;
         }
 
-
-        #number-container .scrolling {
-            animation: scroll 1s linear;
-            /* Adjust animation duration as needed */
-        }
-
-        @keyframes scroll {
-            0% {
-                transform: translateY(0);
-            }
-
-            100% {
-                transform: translateY(-100%);
-            }
-        }
 
 
         /* FOR BINGO NUMBER ROLL ANIMATION */
@@ -249,10 +228,27 @@
             justify-content: space-around;
             align-items: center;
         }
+        @keyframes blink {
+            0%, 100% {
+                background-color: white;
+            }
+            50% {
+                background-color: yellow;
+            }
+        }
+
+        #animated-td {
+            background-color: white; /* Initial background color */
+            transition: background-color 0.5s; /* CSS transition for smooth animation */
+        }
+
+        #animated-td.blinking {
+            animation: blink 1.5s ease-in-out 3; /* 3 times blinking over 1.5s */
+        }
     </style>
 </head>
 
-<body>
+<body {% if selected_number %} onload="animateTdBackgroundColor()" {% endif %}>
     <div class="container-fluid">
         <h2 style="text-align: center; font-family: 'Anton', sans-serif; font-size:50px;">Bingo Game</h2>
         {% include 'home.html' %}
@@ -273,7 +269,7 @@
                             {% for bingo in bingo_card %}
                             <tr>
                                 {% for number in bingo %}
-                                <td>{{ number }}</td>
+                                <td {% if number == selected_number %} id="animated-td" {% endif %}>{{ number }}</td>
                                 {% endfor %}
                             </tr>
                             {% endfor %}
@@ -339,6 +335,18 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+    
+    function animateTdBackgroundColor() {
+        const row = document.getElementById('animated-td');
+        
+        // Add a class to trigger the blinking animation
+        row.classList.add('blinking');
+        
+        // Remove the class after the blinking completes
+        setTimeout(() => {
+            row.classList.remove('blinking');
+        }, 5000); // Total duration of the blinking animation in milliseconds
+    }
     var numbers = {{ numbers|safe }};
     var selected_number = {{ selected_number|default:"0" }};
     var scrolling = false;
