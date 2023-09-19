@@ -79,8 +79,6 @@ def bingo(request):
         except IndexError:
             bingo_card[i].append('')
 
-    print(bingo_card)
-
     context.update({'bingo_card': bingo_card, 'numbers': all_numbers})
 
     return render(request, 'bingo.html', context)
@@ -152,7 +150,6 @@ def raffle(request):
     none_char = '00000'
     winner_number = request.session.get('winner_number', none_char)
     if winner_number != none_char:
-        print(winner_number)
         current_winner = Winner.objects.get(ticket_number=winner_number)
         winners = Winner.objects.all().order_by('date')
         context.update({'winners': winners, 'current_winner': current_winner})
