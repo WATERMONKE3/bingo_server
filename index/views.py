@@ -14,21 +14,12 @@ def home(request):
 
 def bingo(request):
     context = {}
-    # Get the selected_numbers_array from the session or initialize it as an empty list
     selected_numbers_array = request.session.get('selected_numbers_array', [])
     bingo_card = request.session.get('bingo_card', [])
     selected_number = request.session.get('selected_number', 0)
     if selected_number:
         context.update({'selected_number': selected_number})
 
-    # bingo_col = BingoCard.objects.all()
-    # numbers = list(range(1, 76))
-    # # Remove selected numbers from the numbers list
-    # numbers = [num for num in numbers if num not in selected_numbers_array]
-
-    # if selected_number not in selected_numbers_array:
-    #     selected_numbers_array.append(selected_number)
-    #     request.session['selected_numbers_array'] = selected_numbers_array
     if not BingoNumber.objects.exists():
         for i in range(1, 76):
             bingo_number = BingoNumber(number=i)
@@ -94,17 +85,6 @@ def save_selected_number(request):
 
         # Create a new BingoCard instance and set the appropriate column
         bingo_num = BingoNumber.objects.get(number=selected_number)
-
-        # if 1 <= selected_number <= 15:
-        #     bingo_card.b_column = selected_number
-        # elif 16 <= selected_number <= 30:
-        #     bingo_card.i_column = selected_number
-        # elif 31 <= selected_number <= 45:
-        #     bingo_card.n_column = selected_number
-        # elif 46 <= selected_number <= 60:
-        #     bingo_card.g_column = selected_number
-        # elif 61 <= selected_number <= 75:
-        #     bingo_card.o_column = selected_number
 
         bingo_num.is_drawn = True
         bingo_num.time_drawn = datetime.now().strftime("%H:%M:%S")
