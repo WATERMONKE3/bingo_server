@@ -118,7 +118,6 @@ def save_winner(request):
                         ticket_number=raffle_entry.ticket_number,
                         name=raffle_entry.name,
                         phone_number=raffle_entry.phone_number,
-                        address=raffle_entry.address
                     )
                     request.session['winner_number'] = winner_number
                     winner.save()
@@ -152,7 +151,7 @@ def import_raffle_entries(request):
             next(csv_data, None)  # Skip the header row if it exists
 
             for row in csv_data:
-                ticket_number, name, phone_number, address, solicitor = row
+                ticket_number, name, phone_number, solicitor = row
                 
                 # Check if an entry with the same ticket number already exists
                 if not RaffleEntry.objects.filter(ticket_number=ticket_number).exists():
@@ -160,11 +159,22 @@ def import_raffle_entries(request):
                         ticket_number=ticket_number,
                         name=name,
                         phone_number=phone_number,
-                        address=address,
                         solicitor=solicitor
                     )
                     raffle_entry.save()
         request.session['winner_number'] = '00000'
+        try:
+            all_winners = Winner.objects.all()
+            # create csv file and save all winners before deleting
+            with open('winners.csv', 'w', newline='') as csvfile:
+                fieldnames = ['ticket_number', 'name', 'phone_number', 'date']
+                writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+                writer.writeheader()
+                for winner in all_winners:
+                    writer.writerow({'ticket_number': winner.ticket_number, 'name': winner.name, 'phone_number': winner.phone_number, 'date': winner.date})
+            all_winners.delete()
+        except:
+            pass
         return redirect('home')
     except FileNotFoundError:
         print("File not found")

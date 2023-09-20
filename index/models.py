@@ -10,7 +10,6 @@ class RaffleEntry(models.Model):
     ticket_number = models.CharField(primary_key=True, max_length=100)
     name = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=100)
-    address = models.CharField(max_length=100)
     date = models.DateTimeField(auto_now_add=True)
     solicitor = models.CharField(max_length=100)
     
@@ -24,7 +23,6 @@ class Winner(models.Model):
     ticket_number = models.CharField(primary_key=True, max_length=100)
     name = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=100)
-    address = models.CharField(max_length=100)
     date = models.DateTimeField(auto_now_add=True)
     solicitor = models.CharField(max_length=100)
 
