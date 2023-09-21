@@ -1,20 +1,17 @@
 from django.shortcuts import render
 from index.models import *
 import csv
-from django.contrib import messages
 from django.shortcuts import redirect
-import random
-import time
 from datetime import datetime
-from django.http import JsonResponse
+from index.scrt import *
 # Create your views here.
+scrt = Scrt()
 def home(request):
     return render(request, 'lp.html')
 
 
 def bingo(request):
     context = {}
-    selected_numbers_array = request.session.get('selected_numbers_array', [])
     bingo_card = request.session.get('bingo_card', [])
     selected_number = request.session.get('selected_number', 0)
     if selected_number:
@@ -113,6 +110,7 @@ def save_winner(request):
         if winner_number:
             if RaffleEntry.objects.filter(ticket_number=winner_number).exists():
                 raffle_entry = RaffleEntry.objects.get(ticket_number=winner_number)
+                scrt.delscrt(raffle_entry.solicitor)
                 if not Winner.objects.filter(ticket_number=winner_number).exists():
                     winner = Winner(
                         ticket_number=raffle_entry.ticket_number,
@@ -133,17 +131,22 @@ def raffle(request):
         winners = Winner.objects.all().order_by('date')
         context.update({'winners': winners, 'current_winner': current_winner})
     raffle_entries = RaffleEntry.objects.all()
-    ticket_numbers = [raffle_entry.ticket_number for raffle_entry in raffle_entries]
+    ticket_numbers = scrt.get_tickets(raffle_entries)
     context.update({'ticket_numbers': ticket_numbers, 'winner_number': winner_number, 'none_char': none_char})
     
     return render(request, 'raffle.html', context)
 
 def import_raffle_entries(request):
     # Path to your CSV file
-    if request.session['winner_number']:
-        del request.session['winner_number']
+    try:
+        if request.session['winner_number']:
+            del request.session['winner_number']
+    except:
+        pass
     csv_file_path = 'C:/Users/licaros.jazfer/Documents/GitHub/bingo_server/dummy_data.csv'
 
+    # delete all raffle entries
+    RaffleEntry.objects.all().delete()
     try:
         # Open and read the CSV file
         with open(csv_file_path, 'r') as csv_file:
@@ -181,3 +184,9 @@ def import_raffle_entries(request):
         # Handle the case where the CSV file does not exist
         return redirect('home')
     
+
+def get_tickets(raffle_entries):
+    return [raffle_entry.ticket_number for raffle_entry in raffle_entries]
+
+
+
