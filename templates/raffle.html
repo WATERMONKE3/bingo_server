@@ -314,7 +314,33 @@
                 confettiNumber: 500,
                 // emojis: ['🌽'],
                 confettiColors:[
-                    '#ff0000', '#ffcc00', '#00ff00', '#0000ff', '#ff00ff', '#00ffff', '#ffff00', '#ff8000', '#8000ff', '#00ff80', '#ff0080', '#80ff00', '#0080ff', '#ff80ff', '#80ffff', '#ffff80', '#ff4000', '#4000ff', '#0040ff', '#ff40ff', '#40ffff', '#ffbf00', '#bf00ff', '#00ffbf', '#ff00bf', '#bfff00', '#00bfff',
+                    '#ff0000', 
+                    '#ffcc00', 
+                    '#00ff00', 
+                    '#0000ff', 
+                    '#ff00ff', 
+                    '#00ffff', 
+                    '#ffff00', 
+                    '#ff8000', 
+                    '#8000ff', 
+                    '#00ff80', 
+                    '#ff0080', 
+                    '#80ff00', 
+                    '#0080ff', 
+                    '#ff80ff', 
+                    '#80ffff', 
+                    '#ffff80', 
+                    '#ff4000', 
+                    '#4000ff', 
+                    '#0040ff', 
+                    '#ff40ff', 
+                    '#40ffff', 
+                    '#ffbf00', 
+                    '#bf00ff', 
+                    '#00ffbf', 
+                    '#ff00bf', 
+                    '#bfff00', 
+                    '#00bfff',
                 ]
             })
             playSound('tada');
@@ -363,8 +389,9 @@
             const rollButton = document.getElementById('rollButton');
             let ticketNumbers = {{ ticket_numbers|safe }}; // Load ticket numbers from the context
 
-            // Generate a random seed based on the current time in seconds
-            const seed = Math.floor(Date.now() / 1000);
+            // Generate a random seed based on the current time in milliseconds
+            const seed = Date.now();
+            console.log(seed);
 
             // Initialize the random number generator with the seed
             const seededRandom = new Math.seedrandom(seed);

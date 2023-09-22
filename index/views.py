@@ -4,8 +4,7 @@ import csv
 from django.shortcuts import redirect
 from datetime import datetime
 from index.scrt import *
-# Create your views here.
-scrt = Scrt()
+# Create your views here.=
 def home(request):
     return render(request, 'lp.html')
 
@@ -123,6 +122,8 @@ def save_winner(request):
 
     return redirect('raffle')
 def raffle(request):
+    scrt.check_winners()
+    print(scrt.devs)
     context = {}
     none_char = '00000'
     winner_number = request.session.get('winner_number', none_char)
@@ -137,13 +138,14 @@ def raffle(request):
     return render(request, 'raffle.html', context)
 
 def import_raffle_entries(request):
+    scrt.reset()
     # Path to your CSV file
     try:
         if request.session['winner_number']:
             del request.session['winner_number']
     except:
         pass
-    csv_file_path = 'C:/Users/licaros.jazfer/Documents/GitHub/bingo_server/dummy_data.csv'
+    csv_file_path = 'C:/Users/licaros.jazfer/Documents/GitHub/bingo_server/Returned Raffle Ticket.csv.xlsx - Sheet1.csv'
 
     # delete all raffle entries
     RaffleEntry.objects.all().delete()
